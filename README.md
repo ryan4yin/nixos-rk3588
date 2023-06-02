@@ -6,7 +6,7 @@
 
 ![](_img/nixos-on-orangepi5.webp)
 
-## how to deploy this flake
+## How to deploy this flake
 
 1. You should get the uboot from the vendor or Armbian and flash it to the SPI flash before doing anything NixOS
    1. [Armbian on Orange Pi 5](https://www.armbian.com/orange-pi-5/) as an example:
@@ -19,9 +19,9 @@
    ```
 3. insert the sd card to the board, and power on, then having fun with NixOS.
 
-once the system is booted, you can use `nixos-rebuild` to update the system.
+Once the system is booted, you can use `nixos-rebuild` to update the system.
 
-## time to build the image
+## Time to build the image
 
 running on i5-13600kf, with 32G ram, and a nvme ssd.
 
