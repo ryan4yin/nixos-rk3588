@@ -2,6 +2,8 @@
 
 > :warning: Work in progress, use at your own risk...
 
+![](_img/nixos-on-orangepi5.webp)
+
 ## how to deploy this flake
 
 1. You should get the uboot from the vendor or Armbian and flash it to the SPI flash before doing anything NixOS
