@@ -12,6 +12,12 @@
 - [ ] Build a minimal bootable image w, with the vendor's uboot and kernel.
 - [ ] Make the image more useful by adding supports for gpu/gpio/audio/...
 
+## How to deploy this flake
+
+```shell
+nix run github:nix-community/nixos-generators -- --flake .#opi5 --format raw -o opi5.img
+```
+
 ## 思路
 
 一个简单的 Linux 或者说嵌入式系统启动和运行一般遵循的规律是：
