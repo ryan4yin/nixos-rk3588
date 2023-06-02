@@ -21,12 +21,12 @@
 
 一旦系统启动成功，后面的用法就和普通的 NixOS 一样了，可以使用 `nixos-rebuild` 来更新系统。
 
-## time to build the image
+## 构建用时
 
-running on i5-13600kf, with 32G ram, and a nvme ssd.
+构建机的配置为 i5-13600kf, 32G RAM, NVMe SSD.
 
-1. with emulated system: 1h 25m
-2. with cross compilation: - (TODO)
+1. 通过 emulated system 进行构建: 1h 25m
+2. 通过交叉编译进行构建: - (TODO)
 
 ## TODO
 
