@@ -12,7 +12,6 @@
 - [ ] Build a minimal bootable image w, with the vendor's uboot and kernel.
 - [ ] Make the image more useful by adding supports for gpu/gpio/audio/...
 
-
 ## 思路
 
 一个简单的 Linux 或者说嵌入式系统启动和运行一般遵循的规律是：
@@ -36,13 +35,13 @@ graph LR
 目前 armbian 对 rk3588/rk3588s 两个 SoC 平台，以及 Orange Pi 5 的支持都挺完善了，所以大概的选择如下：
 
 - Linux 内核：[armbian/linux-rockchip/rk-5.10-rkr4](https://github.com/armbian/linux-rockchip/tree/rk-5.10-rkr4)
-- 
+-
 
 ## 学习路线
 
 1. 交叉编译: https://nix.dev/tutorials/cross-compilation
 2. 构建 ISO 镜像: https://nix.dev/tutorials/nixos/build-and-deploy/building-bootable-iso-image
-4. 使用 nixos-generator 简化代码： https://github.com/nix-community/nixos-generators
+3. 使用 nixos-generator 生成系统镜像： https://github.com/nix-community/nixos-generators
 
 ## 名词或工具
 

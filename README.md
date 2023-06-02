@@ -9,5 +9,5 @@ References:
 
 ## TODO
 
-- [ ] Build a minimal bootable image w, with the vendor's uboot and kernel.
+- [ ] Build a minimal bootable image, with the vendor's uboot and kernel.
 - [ ] Make the image more useful by adding supports for gpu/gpio/audio/...

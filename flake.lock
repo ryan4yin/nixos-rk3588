@@ -1,0 +1,45 @@
+{
+  "nodes": {
+    "linux-rockchip": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1685437415,
+        "narHash": "sha256-rX21EbiQfpK0rJSqrahKDJr49VqBcmEttqFjVygPfZQ=",
+        "owner": "armbian",
+        "repo": "linux-rockchip",
+        "rev": "fb7c9876e03d57899d57a55a7bb942d6b3ad1254",
+        "type": "github"
+      },
+      "original": {
+        "owner": "armbian",
+        "ref": "rk-5.10-rkr4",
+        "repo": "linux-rockchip",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1685633958,
+        "narHash": "sha256-8GadlxTAf/Q+Fx3twHLt2i3C5IBoOmmH9gX96/CoANU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "7d9999f2c178882a4656283c12a7501243626bf7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "linux-rockchip": "linux-rockchip",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
