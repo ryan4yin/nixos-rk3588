@@ -17,6 +17,23 @@
         "type": "github"
       }
     },
+    "mesa-panfork": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1670633863,
+        "narHash": "sha256-4eZHMiYS+sRDHNBtLZTA8ELZnLns7yT3USU5YQswxQ0=",
+        "owner": "panfork",
+        "repo": "mesa",
+        "rev": "120202c675749c5ef81ae4c8cdc30019b4de08f4",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "panfork",
+        "ref": "csf",
+        "repo": "mesa",
+        "type": "gitlab"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1685633958,
@@ -36,6 +53,7 @@
     "root": {
       "inputs": {
         "linux-rockchip": "linux-rockchip",
+        "mesa-panfork": "mesa-panfork",
         "nixpkgs": "nixpkgs"
       }
     }

@@ -2,18 +2,17 @@
   config,
   lib,
   pkgs,
-  pkgsHost,
   inputs,
   ...
 }: {
   # FIXME: hack for util-linux issue, remove when fixed
-  imports = [../../hacks/old-kernel.nix];
+  imports = [./hacks/old-kernel.nix];
 
   boot = {
     kernelPackages = let
-      crossPkgs = pkgsHost.pkgsCross.aarch64-multiplatform;
+      crossPkgs = pkgs.pkgsCross.aarch64-multiplatform;
     in
-      crossPkgs.linuxPackagesFor (crossPkgs.callPackage ../../hacks/kernel {
+      crossPkgs.linuxPackagesFor (crossPkgs.callPackage ./hacks/kernel {
         src = inputs.linux-rockchip;
       });
 
@@ -100,7 +99,7 @@
     };
 
     firmware = [
-      (pkgs.callPackage ../../hacks/mali-firmware {})
+      (pkgs.callPackage ./hacks/mali-firmware {})
     ];
   };
 

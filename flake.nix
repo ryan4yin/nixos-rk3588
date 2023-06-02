@@ -4,11 +4,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
 
-    # TODO add GPU drivers
-    # mesa-panfork = {
-    #   url = "gitlab:panfork/mesa/csf";
-    #   flake = false;
-    # };
+    # GPU drivers
+    mesa-panfork = {
+      url = "gitlab:panfork/mesa/csf";
+      flake = false;
+    };
 
     linux-rockchip = {
       url = "github:armbian/linux-rockchip/rk-5.10-rkr4";
