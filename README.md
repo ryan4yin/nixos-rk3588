@@ -2,6 +2,8 @@
 
 > :warning: Work in progress, use at your own risk...
 
+[[中文]](./README.zh.md)
+
 ![](_img/nixos-on-orangepi5.webp)
 
 ## how to deploy this flake

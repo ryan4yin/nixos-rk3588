@@ -2,6 +2,8 @@
 
 > :warning: WIP 项目仍在开发中，请自行评估使用风险...
 
+[[English]](./README.md)
+
 ![](_img/nixos-on-orangepi5.webp)
 
 ## 如何使用此 Flake
