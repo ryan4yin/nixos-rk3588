@@ -2,7 +2,7 @@
   description = "A minimal NixOS configuration for the Orange Pi 5 SBC";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05-small";
 
     # GPU drivers
     mesa-panfork = {
@@ -17,22 +17,28 @@
   };
 
   outputs = inputs@{nixpkgs, ...}: {
-      nixosConfigurations = {
-        # Orange Pi 5 SBC
-        opi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" {
-          system = "aarch64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules =
-            [
-              {
-                networking.hostName = "opi5";
-              }
-
-              ./boot.nix
-            ];
+    nixosConfigurations = {
+      # Orange Pi 5 SBC
+      orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
+        # system = "x86_64-linux";
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit inputs;
         };
+        modules =
+          [
+            {
+              networking.hostName = "orangepi5";
+              # cross compilation the whole system
+              # nixpkgs.pkgs = import nixpkgs {
+              #   localSystem = system;
+              #   crossSystem = "aarch64-linux";
+              # };
+            }
+
+            ./orangepi5.nix
+          ];
       };
     };
+  };
 }

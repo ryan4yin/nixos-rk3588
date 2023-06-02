@@ -2,21 +2,37 @@
 
 > :warning: WIP 项目仍在开发中，请自行评估使用风险...
 
-参考过的配置：
+![](_img/nixos-on-orangepi5.webp)
 
-- [K900/nix](https://gitlab.com/K900/nix)
-- [aciceri/rock5b-nixos](https://github.com/aciceri/rock5b-nixos).
+## 如何使用此 Flake
+
+1. 首先你需要从厂商或者 Armbian 获取到 u-boot 并刷入 SPI Flash
+   1. 以 [Armbian on Orange Pi 5](https://www.armbian.com/orange-pi-5/) 为例：
+      1. 首先下载镜像并刷入 SD 卡
+      2. 使用该 SD 启动系统，然后执行 `sudo armbian-install` 将 u-boot 刷入 SPI Flash（名为 `MTD devices` 的选项就是 SPI Flash）
+2. 使用 `nix build` 构建一个 sdImage，然后使用 `dd` 将其刷入 SD 卡：
+   ```shell
+   nix build .#nixosConfigurations.orangepi5.config.system.build.sdImage
+   sudo dd bs=8M if=result/nixos.img of=/dev/sda status=progress
+   ```
+3. 使用 SD 卡启动开发板，然后就可以在 NixOS 上愉快的玩耍了。
+
+一旦系统启动成功，后面的用法就和普通的 NixOS 一样了，可以使用 `nixos-rebuild` 来更新系统。
+
+## time to build the image
+
+running on i5-13600kf, with 32G ram, and a nvme ssd.
+
+1. with emulated system: 1h 25m
+2. with cross compilation: - (TODO)
 
 ## TODO
 
-- [ ] Build a minimal bootable image w, with the vendor's uboot and kernel.
-- [ ] Make the image more useful by adding supports for gpu/gpio/audio/...
-
-## How to deploy this flake
-
-```shell
-nix run github:nix-community/nixos-generators -- --flake .#opi5 --format raw -o opi5.img
-```
+| Singal Board Computer | minimal bootable image |
+| --------------------- | ---------------------- |
+| Orange Pi 5           | :heavy_check_mark:     |
+| Orange Pi 5 Plus      | :no_entry_sign:        |
+| Rock 5A               | :no_entry_sign:        |
 
 ## 思路
 
@@ -24,10 +40,8 @@ nix run github:nix-community/nixos-generators -- --flake .#opi5 --format raw -o 
 
 ```mermaid
 graph LR
-  a[启动加电] --> b[spl 和 u-boot 部分] -->  c[内核镜像启动] --> d[挂载根目录启动完整操作系统]
+  a[启动加电] --> b[bootloader(u-boot)] -->  c[内核镜像启动] --> d[挂载根目录启动完整操作系统]
 ```
-
-> 这里把 spl 跟 u-boot 看作了一个整体，它们类似于 x86 的 bios/uefi
 
 这样的启动流程有利于用户和玩家基于目前已有情况，减少折腾重构系统繁杂过程，直接在此基础上开始构建一个全新的发行版。
 
@@ -35,19 +49,14 @@ graph LR
 
 - SBC/SoC 厂商提供的 u-boot 与 Linux Kernel，它们都基于 SoC 跟开发板外设的特性进行了定制
   - 或者用第三方社区维护的 u-boot 和 Linux Kernel，比如 Armbian 的 u-boot 和 Linux Kernel 就兼容了众多 ARM 开发板
+    - 将 u-boot 刷入 SPI Flash，Kernel 用于构建 rootfs
 - SBC/SoC 厂商提供的各种外设的内核模块（驱动），比如 GPU、GPIO、Audio 等
-- NixOS 的 rootfs
+- 利用上述 Linux Kernel 与内核模块构建一个 NixOS rootfs
 
 目前 armbian 对 rk3588/rk3588s 两个 SoC 平台，以及 Orange Pi 5 的支持都挺完善了，所以大概的选择如下：
 
 - Linux 内核：[armbian/linux-rockchip/rk-5.10-rkr4](https://github.com/armbian/linux-rockchip/tree/rk-5.10-rkr4)
 -
-
-## 学习路线
-
-1. 交叉编译: https://nix.dev/tutorials/cross-compilation
-2. 构建 ISO 镜像: https://nix.dev/tutorials/nixos/build-and-deploy/building-bootable-iso-image
-3. 使用 nixos-generator 生成系统镜像： https://github.com/nix-community/nixos-generators
 
 ## 名词或工具
 
@@ -106,6 +115,25 @@ udev 是 Linux kernel 的设备管理器，用于管理 /dev 目录底下的设�
 udev 能通过定义一个 udev 规则 (rule) 来自定义设备文件的属性，
 这些设备属性可以是内核设备名称、总线路径、厂商名称、型号、序列号或者磁盘大小等等。
 
+### 如何在 x64 平台构建 aarch64 的 rootfs
+
+有两种方法：
+
+1. 使用 qemu-user 模拟 aarch64 架构，然后在模拟器中构建 rootfs
+   1. 缺点是指令集模拟，性能低下
+   2. 优点是能利用上 nixos 的 binary cache，不需要自己编译所有内容
+2. 直接交叉编译 aarch64 架构的 rootfs
+   1. 缺点是无法利用 nixos 的 binary cache，需要自己编译所有内容（交叉编译也有 cache，但是里面基本没啥东西）
+   2. 优点是不需要指令集模拟，性能高
+
+如果使用方法一，则需要在构建机的 NixOS 配置中启用 aarch64 架构的 binfmt_misc
+
+如果使用方法二，就不需要启用 binfmt_misc 了，但是需要通过交叉编译工具链来执行编译。
+
+但是千万别两个混用，这会导致奇怪的错误，遇到过啥 `C compiler cannot create executables` 的错误，就是因为混用了这两种方法导致的。
+
+下一小节介绍如何实现交叉编译。
+
 ### 5. 如何在 flake 中实现交叉编译
 
 > https://discourse.nixos.org/t/how-do-i-cross-compile-my-own-package-rather-than-something-in-nix-pkgs/19851/2
@@ -140,7 +168,7 @@ in
  ...
 ```
 
-或者这么写，效果是一样的：
+或者这么写，效果是一样的（但是这个只能在子模块中用，因为它用了 `pkgs`）：
 
 ```nix
 let
@@ -160,7 +188,15 @@ in
 
 这样就可以直接用 `pkgsCross.callPackage` 了。
 
+### 6. 如何在 flake 中实现通过 emulated system 编译
+
+这个比交叉编译更简单，直接将 orangepi5 的 system 设为 `aarch64-linux`，然后构建机启用 binfmt 即可。
+
 ## 参考
 
-- [LicheePi 4A —— 这个小板有点意思（第一部分）- by huguo](https://litterhougelangley.club/blog/2023/05/27/licheepi-4a-%e8%bf%99%e4%b8%aa%e5%b0%8f%e6%9d%bf%e6%9c%89%e7%82%b9%e6%84%8f%e6%80%9d%ef%bc%88%e7%ac%ac%e4%b8%80%e9%83%a8%e5%88%86%ef%bc%89/)
-- [orangepi-xunlong/orangepi-build](https://github.com/orangepi-xunlong/orangepi-build/tree/next)
+主要参考了如下项目：
+
+- [K900/nix](https://gitlab.com/K900/nix)
+- [aciceri/rock5b-nixos](https://github.com/aciceri/rock5b-nixos).
+
+另外还在 [NixOS on ARM 的 Matrix 群组](https://matrix.to/#/#nixos-on-arm:nixos.org) 中得到了很多帮助，感谢～

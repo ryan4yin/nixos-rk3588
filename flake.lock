@@ -4,7 +4,7 @@
       "flake": false,
       "locked": {
         "lastModified": 1685437415,
-        "narHash": "sha256-rX21EbiQfpK0rJSqrahKDJr49VqBcmEttqFjVygPfZQ=",
+        "narHash": "sha256-xm9Lwv4SvNjAVEAXwnmuADOgYE7RBBy3Np3DserQqV4=",
         "owner": "armbian",
         "repo": "linux-rockchip",
         "rev": "fb7c9876e03d57899d57a55a7bb942d6b3ad1254",
@@ -36,16 +36,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1685633958,
-        "narHash": "sha256-8GadlxTAf/Q+Fx3twHLt2i3C5IBoOmmH9gX96/CoANU=",
+        "lastModified": 1685672710,
+        "narHash": "sha256-9mK8qqabxgMefDNNkYzMpMqTs+X5XuoJ/1yNNW9t7P8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "7d9999f2c178882a4656283c12a7501243626bf7",
+        "rev": "ac5281cce24fac6d98773c55c038f654b8e84cd4",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable-small",
+        "ref": "nixos-23.05-small",
         "repo": "nixpkgs",
         "type": "github"
       }
