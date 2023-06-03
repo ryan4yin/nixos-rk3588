@@ -188,8 +188,58 @@
     wget
     curl
     aria2
+
     neofetch
+    nnn      # terminal file manager
+    btop     # replacement of htop/nmon
+    htop
+    iotop
+    iftop
+    nmon
+
+    # system call monitoring
+    strace
+    ltrace  # library call monitoring
+    lsof
+
+    mtr      # A network diagnostic tool
+    iperf3   # A tool for measuring TCP and UDP bandwidth performance
+    nmap     # A utility for network discovery and security auditing
+    ldns     # replacement of dig, it provide the command `drill`
+    aria2    # A lightweight multi-protocol & multi-source command-line download utility
+    socat    # replacement of openbsd-netcat
+    tcpdump  # A powerful command-line packet analyzer
+
+    # system tools
+    ethtool
+    sysstat
+    lm_sensors  # for `sensors` command
+    cifs-utils  # for mounting windows shares
+
+    # archives
+    zip
+    xz
+    unzip
+    p7zip
+
+    # misc
+    viu  # terminal image viewer
+    ffmpeg-full
+    cowsay
+    file
+    which
+    tree
+    gnused
+    gnutar
+    gawk
+    zstd
+    caddy
+    gnupg
+    docker-compose
   ];
+
+  # replace default editor with neovim
+  environment.variables.EDITOR = "nvim";
 
   # Enable the OpenSSH daemon.
   services.openssh = {
