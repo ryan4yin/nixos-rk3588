@@ -20,7 +20,6 @@
     nixosConfigurations = {
       # Orange Pi 5 SBC
       orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
-        # system = "x86_64-linux";
         system = "aarch64-linux";
         specialArgs = {
           inherit inputs;
@@ -29,11 +28,6 @@
           [
             {
               networking.hostName = "orangepi5";
-              # cross compilation the whole system
-              # nixpkgs.pkgs = import nixpkgs {
-              #   localSystem = system;
-              #   crossSystem = "aarch64-linux";
-              # };
             }
 
             ./orangepi5.nix

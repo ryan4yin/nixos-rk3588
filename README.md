@@ -21,13 +21,6 @@
 
 Once the system is booted, you can use `nixos-rebuild` to update the system.
 
-## Time to build the image
-
-running on i5-13600kf, with 32G ram, and a nvme ssd.
-
-1. with emulated system: 1h 25m
-2. with cross compilation: - (TODO)
-
 ## TODO
 
 | Singal Board Computer | minimal bootable image |

@@ -26,7 +26,7 @@
 构建机的配置为 i5-13600kf, 32G RAM, NVMe SSD.
 
 1. 通过 emulated system 进行构建: 1h 25m
-2. 通过交叉编译进行构建: - (TODO)
+2. 通过交叉编译进行构建: 比 emulated system 更慢，而且还失败了，好像是我交叉编译的参数配得不对导致的，还没搞明白。
 
 ## TODO
 
