@@ -224,7 +224,6 @@
 
     # misc
     viu  # terminal image viewer
-    ffmpeg-full
     cowsay
     file
     which
