@@ -17,17 +17,19 @@
    nix build .#nixosConfigurations.orangepi5.config.system.build.sdImage
    sudo dd bs=8M if=result/nixos.img of=/dev/sda status=progress
    ```
-3. insert the sd card to the board, and power on, then having fun with NixOS.
+3. insert the sd card to the board, and power on
+4. resize the root partition to the full size of the sd card.
+5. then having fun with NixOS
 
 Once the system is booted, you can use `nixos-rebuild` to update the system.
 
 ## TODO
 
-| Singal Board Computer | minimal bootable image |
-| --------------------- | ---------------------- |
-| Orange Pi 5           | :heavy_check_mark:     |
-| Orange Pi 5 Plus      | :no_entry_sign:        |
-| Rock 5A               | :no_entry_sign:        |
+| Singal Board Computer | minimal bootable image |     |
+| --------------------- | ---------------------- | --- |
+| Orange Pi 5           | :heavy_check_mark:     |     |
+| Orange Pi 5 Plus      | :no_entry_sign:        |     |
+| Rock 5A               | :no_entry_sign:        |     |
 
 ## References
 
