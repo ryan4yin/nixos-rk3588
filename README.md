@@ -35,3 +35,5 @@ The projects that inspired me:
 
 - [K900/nix](https://gitlab.com/K900/nix)
 - [aciceri/rock5b-nixos](https://github.com/aciceri/rock5b-nixos)
+
+And I also got a lot of help in the [NixOS on ARM Matrix group](https://matrix.to/#/#nixos-on-arm:nixos.org)!

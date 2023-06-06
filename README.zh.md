@@ -200,5 +200,6 @@ in
 
 - [K900/nix](https://gitlab.com/K900/nix)
 - [aciceri/rock5b-nixos](https://github.com/aciceri/rock5b-nixos).
+- [Cross compiling and deploying NixOS](https://blog.thalheim.io/2022/11/27/cross-compiling-and-deploying-nixos/)
 
 另外还在 [NixOS on ARM 的 Matrix 群组](https://matrix.to/#/#nixos-on-arm:nixos.org) 中得到了很多帮助，感谢～
