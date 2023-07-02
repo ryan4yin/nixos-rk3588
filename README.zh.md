@@ -17,7 +17,9 @@
    nix build .#nixosConfigurations.orangepi5.config.system.build.sdImage
    sudo dd bs=8M if=result/nixos.img of=/dev/sda status=progress
    ```
-3. 使用 SD 卡启动开发板，然后就可以在 NixOS 上愉快的玩耍了。
+3. 使用 SD 卡启动开发板。
+4. 将 rootfs 的根分区扩容到 SD 卡的最大容量。
+5. 然后就可以在 NixOS 上愉快的玩耍了
 
 一旦系统启动成功，后面的用法就和普通的 NixOS 一样了，可以使用 `nixos-rebuild` 来更新系统。
 
@@ -58,7 +60,6 @@ graph LR
 目前 armbian 对 rk3588/rk3588s 两个 SoC 平台，以及 Orange Pi 5 的支持都挺完善了，所以大概的选择如下：
 
 - Linux 内核：[armbian/linux-rockchip/rk-5.10-rkr4](https://github.com/armbian/linux-rockchip/tree/rk-5.10-rkr4)
--
 
 ## 名词或工具
 
@@ -170,6 +171,8 @@ in
  ...
 ```
 
+> 但是试了下上面这种方法，在 flake 中使用时总是报各种奇怪的错误，比如说某个 Linux Kernel config 参数不对啦，反正总是编译不成功
+
 或者这么写，效果是一样的（但是这个只能在子模块中用，因为它用了 `pkgs`）：
 
 ```nix
@@ -189,6 +192,18 @@ in
 ```
 
 这样就可以直接用 `pkgsCross.callPackage` 了。
+
+在 flake 中，要使默认的 pkgs 为交叉编译的 pkgs，在任一 NixOS Module 中添加如下配置即可：
+
+```nix
+{
+   # cross-compilation this flake.
+   nixpkgs.crossSystem = {
+      config = "riscv64-unknown-linux-gnu";
+      system = "riscv64-linux";
+   };
+}
+```
 
 ### 6. 如何在 flake 中实现通过 emulated system 编译
 
