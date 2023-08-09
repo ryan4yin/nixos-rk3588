@@ -12,3 +12,5 @@ result-*
 nix-build/
 outputs/
 *.ext4
+*.img
+*.zst
