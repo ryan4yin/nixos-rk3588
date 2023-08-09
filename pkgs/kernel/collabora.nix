@@ -9,28 +9,40 @@
 # The difference between deconfig and the generated configuration file is that the generated configuration file is more complete,
 # 
 {
-  src,
-  boardName,
+
+  fetchzip,
   linuxManualConfig,
   ubootTools,
   ...
 }:
 (linuxManualConfig {
-  version = "5.10.160-rockchip-rk3588";
-  modDirVersion = "5.10.160";
+  version = "6.5-collabora-rk3588";
+  modDirVersion = "6.5.0";
 
-  inherit src;
+  src = fetchzip {
+    # branch: rk3588
+    # date: 2023-07-21
+    url = "https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/archive/7a5aac740d804bf907bb3781c011a051fdcabd7e/linux-7a5aac740d804bf907bb3781c011a051fdcabd7e.zip";
+    sha256 ="";
+  };
   
-  # path to the generated kernel config file
+  # Path to the generated kernel config file
   # 
-  # you can generate the config file based on the <boardName>_defconfig. e.g. orangepi5_defconfig
-  # by running `make orangepi5_defconfig` in the kernel source tree.
-  # and then copy the generated file(`.config`) to ./xxx_config in the same directory of this file.
+  # You can generate the kernel config file based on the defconfig.
+  # Default config provided by armbian:
+  #    https://github.com/armbian/build/blob/main/config/kernel/linux-rk35xx-legacy.config
+  # To generate the config file, download the defconfig file from the above link to arch/arm64/configs/xxx_defconfig,
+  # then run the following commands:
+  #    make xxx_defconfig
+  # and then copy the generated file(`.config`) to ./boardName_config in this directory.
   # 
-  #   make orangepi5_defconfig   # generate the config file from defconfig (the default config file)
   #   make menuconfig        # view and modify the generated config file(.config) via Terminal UI
   #                          # input / to search, Ctrl+Backspace to delete.
-  configfile = ./. + "/${boardName}_config";
+  #
+  # Manual configuration:
+  #   make[4]: *** [scripts/Makefile.build:516: drivers/net/wireless/rockchip_wlan/rtl8852be] Error 2
+  #     solution: CONFIG_WL_ROCKCHIP=n
+  configfile = ./rk35xx_legacy_config;
 
   extraMeta.branch = "5.10";
 

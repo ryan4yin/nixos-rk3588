@@ -3,7 +3,6 @@
 # =========================================================================
 {
   config,
-  lib,
   pkgs,
   inputs,
   ...
@@ -20,10 +19,7 @@ in
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../pkgs/kernel {
-      inherit boardName;
-      src = inputs.kernel-rockchip;
-    });
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../pkgs/kernel/legacy.nix {});
   };
 
   # add some missing deviceTree in armbian/linux-rockchip:

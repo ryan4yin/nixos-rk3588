@@ -102,6 +102,8 @@
     packages.x86_64-linux = {
       # sdImage
       sdImage-opi5 = self.nixosConfigurations.orangepi5.config.system.build.sdImage;
+      sdImage-opi5plus = self.nixosConfigurations.orangepi5plus.config.system.build.sdImage;
+      sdImage-rock5a = self.nixosConfigurations.rock5a.config.system.build.sdImage;
 
       # the custom kernel for debugging
       # use `nix develop` to enter the environment with the custom kernel build environment available.
@@ -137,7 +139,7 @@
             pkgsKernel_orangepi5.linuxPackages_rockchip.kernel
 
             # arm64 cross-compilation toolchain
-            pkgsKernel_orangepi5.gcc11Stdenv.cc
+            pkgsKernel_orangepi5.gccStdenv.cc
             # native gcc
             gcc
           ]
