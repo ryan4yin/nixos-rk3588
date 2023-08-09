@@ -6,13 +6,15 @@ A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
 
 ![](_img/nixos-on-orangepi5.webp)
 
-## TODO
+## Boards
 
 | Singal Board Computer | minimal bootable image | 
 | --------------------- | ---------------------- | 
 | Orange Pi 5           | :heavy_check_mark:     | 
 | Orange Pi 5 Plus      | :no_entry_sign:        | 
 | Rock 5A               | :no_entry_sign:        | 
+
+## TODO
 
 - [ ] build u-boot with nix
 - [ ] support boot from emmc
@@ -34,7 +36,7 @@ A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
       2. boot the board with the sd card, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
 2. build an sdImage by `nix build`, and then flash it to a sd card using `dd`:
    ```shell
-   nix build .#nixosConfigurations.orangepi5.config.system.build.sdImage
+   nix build .#sdImage-opi5
    sudo dd bs=8M if=result/nixos.img of=/dev/sda status=progress
    ```
 3. insert the sd card to the board, and power on
