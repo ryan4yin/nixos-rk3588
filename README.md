@@ -1,4 +1,4 @@
-# NixOS on RK3588/RK3588s based SBCs
+# NixOS running on RK3588/RK3588s
 
 > :warning: Work in progress, use at your own risk...
 
@@ -8,23 +8,23 @@ A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
 
 ## TODO
 
-| Singal Board Computer | minimal bootable image |     |
-| --------------------- | ---------------------- | --- |
-| Orange Pi 5           | :heavy_check_mark:     |     |
-| Orange Pi 5 Plus      | :no_entry_sign:        |     |
-| Rock 5A               | :no_entry_sign:        |     |
+| Singal Board Computer | minimal bootable image | 
+| --------------------- | ---------------------- | 
+| Orange Pi 5           | :heavy_check_mark:     | 
+| Orange Pi 5 Plus      | :no_entry_sign:        | 
+| Rock 5A               | :no_entry_sign:        | 
 
 - [ ] build u-boot with nix
 - [ ] support boot from emmc
 - [ ] verify all the hardware features available by RK3588/RK3588s
-    - [x] ethernet (rj45)
-    - wifi/bluetooth
-    - audio
-    - [x] gpio
-    - [x] uart/ttl
-    - gpu(mali-g610-firmware + [panfrok/mesa](https://gitlab.com/panfork/mesa))
-    - npu
-    - ...
+  - [x] ethernet (rj45)
+  - wifi/bluetooth
+  - audio
+  - [x] gpio
+  - [x] uart/ttl
+  - gpu(mali-g610-firmware + [panfrok/mesa](https://gitlab.com/panfork/mesa))
+  - npu
+  - ...
 
 ## How to deploy this flake
 
@@ -45,12 +45,12 @@ Once the system is booted, you can use `nixos-rebuild` to update the system.
 
 ## How this flake works
 
-A complete Linux system typically consists of four components: U-Boot, the kernel, device tree, and the root file system (rootfs).
+A complete Linux system typically consists of five components: U-Boot, the kernel, device trees, firmwares, and the root file system (rootfs).
 
-Among these, U-Boot, the kernel, and the device tree are hardware-related and require customization for different SBCs.
+Among these, U-Boot, the kernel, device trees, and firmwares are hardware-related and require customization for different SBCs.
 On the other hand, the majority of content in the rootfs is hardware-independent and can be shared across different SBCs.
 
-Hence, the fundamental approach here is to use the hardware-specific components(U-Boot, kernel, and device tree) provided by the vendor(orangepi/rockpi/...), and combine them with the NixOS rootfs to build a comprehensive system.
+Hence, the fundamental approach here is to use the hardware-specific components(U-Boot, kernel, and device trees, firmwares) provided by the vendor(orangepi/rockpi/...), and combine them with the NixOS rootfs to build a comprehensive system.
 
 Regarding RK3588/RK3588s, a significant amount of work has been done by Armbian on their kernel, and device tree.
 Therefore, by integrating these components from Armbian with the NixOS rootfs, we can create a complete NixOS system.
@@ -60,6 +60,7 @@ The primary steps involved are:
 1. Build U-Boot using this Flake.
    - Since no customization is required for U-Boot, it's also possible to directly use the precompiled U-Boot from Armbian or the hardware vendor.
 2. Build the NixOS rootfs using this Flake, leveraging the kernel and device tree provided by Armbian.
+   - To make all the hardware features available, we need to add its firmwares to the rootfs. Since there is no customization required for the firmwares too, we can directly use the precompiled firmwares from Armbian & Vendor.
 
 Related Armbian projects:
 
@@ -72,5 +73,6 @@ The projects that inspired me:
 
 - [K900/nix](https://gitlab.com/K900/nix)
 - [aciceri/rock5b-nixos](https://github.com/aciceri/rock5b-nixos)
+- [fb87/nixos-orangepi-5x](https://github.com/fb87/nixos-orangepi-5x): NixOS build for Orangepi 5B, based on my work, but adds bootloader and more firmwares into the sdImage, great work!
 
 And I also got a lot of help in the [NixOS on ARM Matrix group](https://matrix.to/#/#nixos-on-arm:nixos.org)!
