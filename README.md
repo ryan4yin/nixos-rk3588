@@ -37,7 +37,7 @@ A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
 2. build an sdImage by `nix build`, and then flash it to a sd card using `dd`:
    ```shell
    nix build .#sdImage-opi5
-   sudo dd bs=8M if=result/nixos.img of=/dev/sda status=progress
+   zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd bs=4M of=/dev/sdX status=progress
    ```
 3. insert the sd card to the board, and power on
 4. resize the root partition to the full size of the sd card.
