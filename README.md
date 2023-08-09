@@ -22,7 +22,7 @@ A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
     - audio
     - [x] gpio
     - [x] uart/ttl
-    - gpu(mali-g610)
+    - gpu(mali-g610-firmware + [panfrok/mesa](https://gitlab.com/panfork/mesa))
     - npu
     - ...
 
