@@ -2,6 +2,8 @@
   config,
   lib,
   pkgs,
+  modulesPath,
+
   inputs,
   ...
 }: 
@@ -25,7 +27,7 @@ in
     inherit hashedPassword;
     isNormalUser = true;
     home = "/home/${username}";
-    extraGroups = [ "users" "networkmanager" "wheel" "docker"];
+    extraGroups = [ "users" "networkmanager" "wheel" "video" "docker"];
     openssh.authorizedKeys.keys = [
       publickey
     ];
@@ -45,7 +47,7 @@ in
   # =========================================================================
 
   networking = {
-    networkmanager.enable = true;
+    # networkmanager.enable = true;
     wireless.enable = false;
     # defaultGateway = "192.168.5.201";
     # nameservers = [
@@ -193,15 +195,7 @@ in
     };
 
     initrd.includeDefaultModules = false;
-  };
-
-
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-      options = ["noatime"];
-    };
+    initrd.availableKernelModules = lib.mkForce [ "dm_mod" "dm_crypt" "encrypted_keys" ];
   };
 
   powerManagement.cpuFreqGovernor = "ondemand";
