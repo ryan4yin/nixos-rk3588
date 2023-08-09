@@ -1,2 +1,14 @@
+/nixpkgs
+/nixpkgs-cached
+
 result
 result/
+result-*
+
+*~
+*.swp
+
+# Personal scripts
+nix-build/
+outputs/
+*.ext4
