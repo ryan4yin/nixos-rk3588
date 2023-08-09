@@ -1,3 +1,5 @@
+# Copy from https://gitlab.com/K900/nix/-/blob/1cd06f8066/hacks/orangepi5/kernel/orangepi5_config
+
 #
 # Automatically generated file; DO NOT EDIT.
 # Linux/arm64 5.10.110 Kernel Configuration
@@ -632,7 +634,7 @@ CONFIG_ARM_SMCCC_SOC_ID=y
 # end of Firmware Drivers
 
 CONFIG_ARCH_SUPPORTS_ACPI=y
-# CONFIG_ACPI is not set
+CONFIG_ACPI=y
 CONFIG_IRQ_BYPASS_MANAGER=y
 CONFIG_VIRTUALIZATION=y
 CONFIG_KVM=y
@@ -3235,7 +3237,8 @@ CONFIG_DEVMEM=y
 CONFIG_DEVPORT=y
 CONFIG_TCG_TPM=y
 CONFIG_HW_RANDOM_TPM=y
-# CONFIG_TCG_TIS is not set
+CONFIG_TCG_TIS=y
+CONFIG_TCG_CRB=y
 # CONFIG_TCG_TIS_SPI is not set
 # CONFIG_TCG_TIS_I2C_ATMEL is not set
 CONFIG_TCG_TIS_I2C_INFINEON=y

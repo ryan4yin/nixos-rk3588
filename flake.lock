@@ -1,13 +1,13 @@
 {
   "nodes": {
-    "linux-rockchip": {
+    "kernel-rockchip": {
       "flake": false,
       "locked": {
-        "lastModified": 1685437415,
-        "narHash": "sha256-xm9Lwv4SvNjAVEAXwnmuADOgYE7RBBy3Np3DserQqV4=",
+        "lastModified": 1687204078,
+        "narHash": "sha256-RpMign78V3G74b2CcI9Rji14HD7Xc1tKNaQupE8MLtk=",
         "owner": "armbian",
         "repo": "linux-rockchip",
-        "rev": "fb7c9876e03d57899d57a55a7bb942d6b3ad1254",
+        "rev": "5527fc11dee7c4f22fe6e0ed3735c8af4ce0017b",
         "type": "github"
       },
       "original": {
@@ -36,11 +36,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1685672710,
-        "narHash": "sha256-9mK8qqabxgMefDNNkYzMpMqTs+X5XuoJ/1yNNW9t7P8=",
+        "lastModified": 1686043861,
+        "narHash": "sha256-duF1U12b7vVkf2Lt6noPYVeW8dVFw4CwJmQivhyZxYQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ac5281cce24fac6d98773c55c038f654b8e84cd4",
+        "rev": "96f8f4a038a190f7511da79ef7e77bec5e4b811a",
         "type": "github"
       },
       "original": {
@@ -52,7 +52,7 @@
     },
     "root": {
       "inputs": {
-        "linux-rockchip": "linux-rockchip",
+        "kernel-rockchip": "kernel-rockchip",
         "mesa-panfork": "mesa-panfork",
         "nixpkgs": "nixpkgs"
       }
