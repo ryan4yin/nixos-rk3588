@@ -28,7 +28,7 @@ A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
   - npu
   - ...
 
-## How to deploy this flake
+## Flash into SD card
 
 1. You should get the uboot from the vendor and flash it to the SPI flash before doing anything NixOS
    1. [Armbian on Orange Pi 5](https://www.armbian.com/orange-pi-5/) as an example:
@@ -44,6 +44,35 @@ A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
 5. then having fun with NixOS
 
 Once the system is booted, you can use `nixos-rebuild` to update the system.
+
+## Flash into SSD
+
+TODO
+
+## Debug with UART
+
+When the system fails to boot, you can check the boot logs through pins of UART0.
+
+First, connect the USB to TTL cable to the UART0 interface of your SBC.
+Then, use tools like 'screen' or 'minicom' to read and write to the serial port device.
+
+```bash
+› ls /dev/ttyUSB0
+╭───┬──────────────┬─────────────┬──────┬───────────────╮
+│ # │     name     │    type     │ size │   modified    │
+├───┼──────────────┼─────────────┼──────┼───────────────┤
+│ 0 │ /dev/ttyUSB0 │ char device │  0 B │ 6 minutes ago │
+╰───┴──────────────┴─────────────┴──────┴───────────────╯
+
+› minicom -d /dev/ttyusb0 -b 115200
+# ......
+```
+
+## Custom Deployment
+
+You can use this flake as an input to build your own configuration.
+Here is an example configuration that you can use as a starting point: [Demo - Deployment](./demo)
+
 
 ## How this flake works
 
