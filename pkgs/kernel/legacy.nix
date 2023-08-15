@@ -18,6 +18,7 @@
   version = "5.10.160-armbian-rk3588";
   modDirVersion = "5.10.160";
 
+  # https://github.com/armbian/linux-rockchip/tree/rk-5.10-rkr4
   src = fetchzip {
     # branch: rk-5.10-rkr4
     # date: 2023-08-08

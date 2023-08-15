@@ -9,16 +9,10 @@
       url = "gitlab:panfork/mesa/csf";
       flake = false;
     };
-
-    # https://github.com/armbian/linux-rockchip/tree/rk-5.10-rkr4
-    kernel-rockchip = {
-      url = "github:armbian/linux-rockchip/rk-5.10-rkr4";
-      flake = false;
-    };
   };
 
   outputs = inputs@{self, nixpkgs, ...}: let
-    pkgsKernel_orangepi5 = import nixpkgs {
+    pkgsKernel = import nixpkgs {
       system = "x86_64-linux";
       crossSystem = {
         config = "aarch64-unknown-linux-gnu";
@@ -26,11 +20,7 @@
 
       overlays = [
         (self: super: {
-          linuxPackages_rockchip = super.linuxPackagesFor (super.callPackage ./pkgs/kernel {
-            src = inputs.kernel-rockchip;
-            stdenv = super.gcc11Stdenv;
-            boardName = "orangepi5";
-          });
+          linuxPackages_rockchip = super.linuxPackagesFor (super.callPackage ./pkgs/kernel/legacy.nix {});
         })
       ];
     };
@@ -115,7 +105,7 @@
       # Solution
       #   - unpackPhase, and the use `nix develop .#fhsEnv` to enter the fhs test environment.
       #   - Then use `make menuconfig` to configure the kernel.
-      kernel = pkgsKernel_orangepi5.linuxPackages_rockchip.kernel.dev;
+      kernel = pkgsKernel.linuxPackages_rockchip.kernel.dev;
     };
 
     # use `nix develop .#fhsEnv` to enter the fhs test environment defined here.
@@ -136,10 +126,10 @@
             ncurses
 
             # custom kernel
-            pkgsKernel_orangepi5.linuxPackages_rockchip.kernel
+            pkgsKernel.linuxPackages_rockchip.kernel
 
             # arm64 cross-compilation toolchain
-            pkgsKernel_orangepi5.gccStdenv.cc
+            pkgsKernel.gccStdenv.cc
             # native gcc
             gcc
           ]
