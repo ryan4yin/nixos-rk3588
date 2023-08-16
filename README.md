@@ -64,7 +64,6 @@ ssh rk@<ip-of-your-board>
 # check all the block devices
 # you should see nvme0n1(SSD)
 $ lsblk
-$ lsblk
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
 mtdblock0    31:0    0    16M  0 disk 
 zram0       254:0    0     0B  0 disk 
