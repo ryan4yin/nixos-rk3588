@@ -6,25 +6,38 @@
     nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";
   };
 
-  outputs = { self, nixpkgs, nixos-rk3588 }: let
-    system = "aarch64-linux";
+  outputs = {
+    self,
+    nixpkgs,
+    nixos-rk3588,
+    ...
+  }: let
+    system = "x86_64-linux";
   in {
     colmena = {
       meta = {
-        nixpkgs = import nixpkgs { inherit system; };
-        specialArgs = {
-          inherit nixpkgs;
-          pkgsKernel = nixos-rk3588.packages.${system}.pkgsKernelCross;
-        };
+        # using the same nixpkgs as nixos-rk3588 to utilize the cross-compilation cache.
+        nixpkgs = import nixos-rk3588.inputs.nixpkgs {inherit system;};
+        specialArgs = nixos-rk3588.inputs;
       };
 
-      lp4a = { name, nodes, ... }: {
+      opi5 = {
+        name,
+        nodes,
+        ...
+      }: {
         deployment.targetHost = "192.168.5.42";
         deployment.targetUser = "root";
         # Allow local deployment with `colmena apply-local`
         deployment.allowLocalDeployment = true;
 
         imports = [
+          {
+            nixpkgs.crossSystem = {
+              config = "aarch64-unknown-linux-gnu";
+            };
+          }
+
           # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
           (nixos-rk3588 + "/modules/boards/orangepi5.nix")
 
