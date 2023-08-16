@@ -20,7 +20,7 @@ Default user: `rk`, default password: `rk3588`
 ## TODO
 
 - [ ] build u-boot with nix
-- [ ] support boot from emmc
+- [x] support boot from emmc/ssd
 - [ ] verify all the hardware features available by RK3588/RK3588s
   - [x] ethernet (rj45)
   - wifi/bluetooth
