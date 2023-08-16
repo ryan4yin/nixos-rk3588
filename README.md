@@ -85,10 +85,9 @@ Related Armbian projects:
 
 ## References
 
-The projects that inspired me:
-
 - [K900/nix](https://gitlab.com/K900/nix)
 - [aciceri/rock5b-nixos](https://github.com/aciceri/rock5b-nixos)
-- [fb87/nixos-orangepi-5x](https://github.com/fb87/nixos-orangepi-5x): NixOS build for Orangepi 5B, based on my work, but adds bootloader and more firmwares into the sdImage, great work!
+- [nabam/nixos-rockchip](https://github.com/nabam/nixos-rockchip)
+- [fb87/nixos-orangepi-5x](https://github.com/fb87/nixos-orangepi-5x)
 
 And I also got a lot of help in the [NixOS on ARM Matrix group](https://matrix.to/#/#nixos-on-arm:nixos.org)!
