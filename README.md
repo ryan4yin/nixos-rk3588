@@ -48,9 +48,34 @@ Default user: `rk`, default password: `rk3588`
 
 Once the system is booted, you can use `nixos-rebuild` to update the system.
 
-## Flash into SSD
+## Flash into SSD/eMMC
 
-TODO
+To flash the image into the board's eMMC / SSD, you need to flash the image into the board and start into NixOS first.
+
+Then, use the following command to flash the image into the board's SSD / eMMC:
+
+```bash
+# upload the sdImage to the NixOS system on the board
+scp result/sd-image/orangepi5-sd-image-*.img.zst  rk@<ip-of-your-board>:~/
+
+# login to the board via ssh or serial port
+ssh rk@<ip-of-your-board>
+
+# check all the block devices
+# you should see nvme0n1(SSD)
+$ lsblk
+$ lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+mtdblock0    31:0    0    16M  0 disk 
+zram0       254:0    0     0B  0 disk 
+nvme0n1     259:0    0 238.5G  0 disk 
+......
+
+# flash the image into the board's SSD
+zstdcat orangepi5-sd-image-*.img.zst | sudo dd bs=4M status=progress of=/dev/nvme0n1
+```
+
+After the flash is complete, remove the SD card and reboot, you should see NixOS booting from SSD / eMMC.
 
 ## Debug via serial port(UART)
 
