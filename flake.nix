@@ -29,9 +29,7 @@
       # Orange Pi 5 SBC
       orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
         system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
+        specialArgs = inputs;
         modules =
           [
             {
@@ -51,9 +49,7 @@
       # TODO not complete yet
       orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
         system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
+        specialArgs = inputs;
         modules =
           [
             {
@@ -73,9 +69,7 @@
       # TODO not complete yet
       rock5a = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
         system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
+        specialArgs = inputs;
         modules =
           [
             {

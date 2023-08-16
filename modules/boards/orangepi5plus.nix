@@ -4,7 +4,7 @@
 {
   config,
   pkgs,
-  inputs,
+  nixpkgs,
   ...
 }: 
 
@@ -15,7 +15,7 @@ in
 {
   imports = [
     ./base.nix
-    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+    "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
 
   boot = {

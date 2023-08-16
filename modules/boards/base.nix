@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  inputs,
+  mesa-panfork,
   ...
 }: 
 
@@ -76,7 +76,7 @@
           .overrideAttrs (_: {
             pname = "mesa-panfork";
             version = "23.0.0-panfork";
-            src = inputs.mesa-panfork;
+            src = mesa-panfork;
           })
         )
         .drivers;
