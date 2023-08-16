@@ -41,10 +41,6 @@
   };
 
   boot = {
-    kernelParams = [
-      "console=ttyS0,115200"
-    ];
-
     # Some filesystems (e.g. zfs) have some trouble with cross (or with BSP kernels?) here.
     supportedFilesystems = lib.mkForce [
       "vfat"
@@ -89,7 +85,7 @@
     enableRedistributableFirmware = true;
     firmware = [
       # firmware for Mali-G610 GPU
-      (pkgs.callPackage ../pkgs/mali-firmware {})
+      (pkgs.callPackage ../../pkgs/mali-firmware {})
     ];
   };
 

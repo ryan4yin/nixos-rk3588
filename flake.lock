@@ -1,22 +1,5 @@
 {
   "nodes": {
-    "kernel-rockchip": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691467352,
-        "narHash": "sha256-9pp9OXRMY8RUq4Fn5AcYhiGeyXXDPRAm9fUVzQV5L2k=",
-        "owner": "armbian",
-        "repo": "linux-rockchip",
-        "rev": "8cae9a3e884071996260905575b55136e2480f6b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "armbian",
-        "ref": "rk-5.10-rkr4",
-        "repo": "linux-rockchip",
-        "type": "github"
-      }
-    },
     "mesa-panfork": {
       "flake": false,
       "locked": {
@@ -52,7 +35,6 @@
     },
     "root": {
       "inputs": {
-        "kernel-rockchip": "kernel-rockchip",
         "mesa-panfork": "mesa-panfork",
         "nixpkgs": "nixpkgs"
       }

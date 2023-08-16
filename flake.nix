@@ -42,7 +42,7 @@
               };
             }
 
-            ./modules/orangepi5.nix
+            ./modules/boards/orangepi5.nix
           ];
       };
 
@@ -63,7 +63,7 @@
               };
             }
 
-            ./modules/orangepi5plus.nix
+            ./modules/boards/orangepi5plus.nix
           ];
       };
 
@@ -84,7 +84,7 @@
               };
             }
 
-            ./modules/rock5a.nix
+            ./modules/boards/rock5a.nix
           ];
       };
     };
