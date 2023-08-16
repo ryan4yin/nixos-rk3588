@@ -22,6 +22,8 @@ in {
     # https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
     kernelParams = [
       "root=UUID=${rootPartitionUUID}"
+      "rootwait"
+      "rootfstype=ext4"
       "rw"  # load rootfs as read-write
 
       "earlycon"  # enable early console, so we can see the boot messages via serial port / HDMI
@@ -36,7 +38,8 @@ in {
       "irqchip.gicv3_pseudo_nmi=0"
 
       # show boot logo
-      "splash plymouth.ignore-serial-consoles"
+      "splash"
+      "plymouth.ignore-serial-consoles"
 
       # docker optimizations
       "cgroup_enable=cpuset"
