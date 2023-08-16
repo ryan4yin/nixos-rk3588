@@ -2,9 +2,12 @@
 
 > :warning: Work in progress, use at your own risk...
 
-A minimal flake that makes NixOS running on RK3588/RK3588s based SBCs.
+A minimal flake to run NixOS on RK3588/RK3588s based SBCs.
 
 ![](_img/nixos-on-orangepi5.webp)
+
+
+Default user: `rk`, default password: `rk3588`
 
 ## Boards
 

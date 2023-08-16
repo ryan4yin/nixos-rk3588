@@ -48,7 +48,7 @@ in
       name = "rockchip/rk3588s-orangepi-5.dtb";
       overlays = [
         {
-          # disable pcie2x1l2 (NVMe), and enable sata0
+          # enable pcie2x1l2 (NVMe), disable sata0
           name = "orangepi5-sata-overlay";
           dtsText = ''
             // Orange Pi 5 Pcie M.2 to sata
@@ -62,7 +62,7 @@ in
                 target = <&sata0>;
 
                 __overlay__ {
-                  status = "okay";
+                  status = "disabled";
                 };
               };
 
@@ -70,7 +70,7 @@ in
                 target = <&pcie2x1l2>;
 
                 __overlay__ {
-                  status = "disabled";
+                  status = "okay";
                 };
               };
             };

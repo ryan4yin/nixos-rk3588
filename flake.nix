@@ -43,6 +43,7 @@
             }
 
             ./modules/boards/orangepi5.nix
+            ./modules/user-group.nix
           ];
       };
 
@@ -64,6 +65,7 @@
             }
 
             ./modules/boards/orangepi5plus.nix
+            ./modules/user-group.nix
           ];
       };
 
@@ -85,6 +87,7 @@
             }
 
             ./modules/boards/rock5a.nix
+            ./modules/user-group.nix
           ];
       };
     };
