@@ -49,24 +49,9 @@ Once the system is booted, you can use `nixos-rebuild` to update the system.
 
 TODO
 
-## Debug with UART
+## Debug via serial port(UART)
 
-When the system fails to boot, you can check the boot logs through pins of UART0.
-
-First, connect the USB to TTL cable to the UART0 interface of your SBC.
-Then, use tools like 'screen' or 'minicom' to read and write to the serial port device.
-
-```bash
-› ls /dev/ttyUSB0
-╭───┬──────────────┬─────────────┬──────┬───────────────╮
-│ # │     name     │    type     │ size │   modified    │
-├───┼──────────────┼─────────────┼──────┼───────────────┤
-│ 0 │ /dev/ttyUSB0 │ char device │  0 B │ 6 minutes ago │
-╰───┴──────────────┴─────────────┴──────┴───────────────╯
-
-› minicom -d /dev/ttyusb0 -b 115200
-# ......
-```
+See [Debug.md](./Debug.md)
 
 ## Custom Deployment
 
