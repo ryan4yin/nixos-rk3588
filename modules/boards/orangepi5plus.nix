@@ -65,13 +65,12 @@ in
     populateFirmwareCommands = ''
       ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./firmware
     '';
+    # Gap in front of the /boot/firmware partition, in mebibytes (1024×1024 bytes).
+    # Can be increased to make more space for boards requiring to dd u-boot SPL before actual partitions.
     firmwarePartitionOffset = 32;
     firmwarePartitionName = "BOOT";
     firmwareSize = 200; # MiB
 
-    # TODO flash u-boot into sdImage.
-    # dd if=\${orangepi5-uboot}/idbloader.img of=$img seek=64 conv=notrunc 
-    # dd if=\${orangepi5-uboot}/u-boot.itb of=$img seek=16384 conv=notrunc
     populateRootCommands = ''
       mkdir -p ./files/boot
     '';

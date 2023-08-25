@@ -14,7 +14,7 @@ Default user: `rk`, default password: `rk3588`
 | --------------------- | ------------------ | ------------------ |
 | Orange Pi 5           | :heavy_check_mark: | :heavy_check_mark: |
 | Orange Pi 5 Plus      | :heavy_check_mark: | :no_entry_sign:    |
-| Rock 5A               | :no_entry_sign:    | :no_entry_sign:    |
+| Rock 5A               | :heavy_check_mark: | :no_entry_sign:    |
 
 ## TODO
 
@@ -32,25 +32,43 @@ Default user: `rk`, default password: `rk3588`
 
 ## Flash into SD card
 
-1. You should get the uboot from the vendor and flash it to the SPI flash before doing anything NixOS
-   1. [Armbian on Orange Pi 5](https://www.armbian.com/orange-pi-5/) as an example:
-      1. download the image and flash it to a sd card first
-      2. boot the board with the sd card, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
-2. build an sdImage by `nix build`, and then flash it to a sd card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card)):
+### Flash U-Boot to SPI flash
 
-   ```shell
-   # for orange pi 5 plus
-   nix build .#sdImage-opi5plus
-   zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+You should get the uboot from the vendor and flash it to the SPI flash before doing anything NixOS
 
-   # for orange pi 5
-   nix build .#sdImage-opi5
-   zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
-   ```
+1. [Armbian on Orange Pi 5 / Orange Pi 5 Plus](https://www.armbian.com/orange-pi-5/) as an example:
+   1. download the image and flash it to a sd card first
+   2. boot the board with the sd card, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
 
-3. insert the sd card to the board, and power on
-4. resize the root partition to the full size of the sd card.
-5. then having fun with NixOS
+For Rock 5A, it's a bit more complicated, you need to enable the SPI flash first, and then flash the uboot to the SPI flash:
+
+1. [Armbian on Rock 5A](https://www.armbian.com/rock-5/)
+   1. download the image for rock 5a and flash it to a sd card first
+   2. boot the board with the sd card, and then save the SPI flash overlay [rockchip/overlays/rock-5a-spi-flash.dts](https://github.com/radxa/overlays/blob/main/arch/arm64/boot/dts/rockchip/overlays/rock-5a-spi-flash.dts) to a file.
+   3. and then run `sudo armbian-add-overlay /path/to/rock-5a-spi-flash.dts` to enable the SPI flash.
+   4. reboot the board, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
+
+### Flash NixOS to SD card
+
+Build an sdImage by `nix build`, and then flash it to a sd card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card)):
+
+```shell
+# for orange pi 5 plus
+nix build .#sdImage-opi5plus
+zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+
+# for orange pi 5
+nix build .#sdImage-opi5
+zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+
+# for rock 5a
+nix build .#sdImage-rock5a
+zstdcat result/sd-image/rock5a-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+```
+
+1. insert the sd card to the board, and power on
+2. resize the root partition to the full size of the sd card.
+3. then having fun with NixOS
 
 Once the system is booted, you can use `nixos-rebuild` to update the system.
 

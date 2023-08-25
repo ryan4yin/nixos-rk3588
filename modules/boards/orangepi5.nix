@@ -120,9 +120,6 @@ in
     firmwarePartitionName = "BOOT";
     firmwareSize = 200; # MiB
 
-    # TODO flash u-boot into sdImage.
-    # dd if=\${orangepi5-uboot}/idbloader.img of=$img seek=64 conv=notrunc 
-    # dd if=\${orangepi5-uboot}/u-boot.itb of=$img seek=16384 conv=notrunc
     populateRootCommands = ''
       mkdir -p ./files/boot
     '';
