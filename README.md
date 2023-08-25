@@ -6,16 +6,15 @@ A minimal flake to run NixOS on RK3588/RK3588s based SBCs.
 
 ![](_img/nixos-on-orangepi5.webp)
 
-
 Default user: `rk`, default password: `rk3588`
 
 ## Boards
 
-| Singal Board Computer | minimal bootable image | 
-| --------------------- | ---------------------- | 
-| Orange Pi 5           | :heavy_check_mark:     | 
-| Orange Pi 5 Plus      | :no_entry_sign:        | 
-| Rock 5A               | :no_entry_sign:        | 
+| Singal Board Computer | minimal bootable image |
+| --------------------- | ---------------------- |
+| Orange Pi 5           | :heavy_check_mark:     |
+| Orange Pi 5 Plus      | :heavy_check_mark:     |
+| Rock 5A               | :no_entry_sign:        |
 
 ## TODO
 
@@ -37,10 +36,15 @@ Default user: `rk`, default password: `rk3588`
    1. [Armbian on Orange Pi 5](https://www.armbian.com/orange-pi-5/) as an example:
       1. download the image and flash it to a sd card first
       2. boot the board with the sd card, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
-2. build an sdImage by `nix build`, and then flash it to a sd card using `dd`:
+2. build an sdImage by `nix build`, and then flash it to a sd card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card)):
    ```shell
+   # for orange pi 5 plus
+   nix build .#sdImage-opi5plus
+   zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+
+   # for orange pi 5
    nix build .#sdImage-opi5
-   zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd bs=4M of=/dev/sdX status=progress
+   zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
    ```
 3. insert the sd card to the board, and power on
 4. resize the root partition to the full size of the sd card.
@@ -65,9 +69,9 @@ ssh rk@<ip-of-your-board>
 # you should see nvme0n1(SSD)
 $ lsblk
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
-mtdblock0    31:0    0    16M  0 disk 
-zram0       254:0    0     0B  0 disk 
-nvme0n1     259:0    0 238.5G  0 disk 
+mtdblock0    31:0    0    16M  0 disk
+zram0       254:0    0     0B  0 disk
+nvme0n1     259:0    0 238.5G  0 disk
 ......
 
 # flash the image into the board's SSD
@@ -84,7 +88,6 @@ See [Debug.md](./Debug.md)
 
 You can use this flake as an input to build your own configuration.
 Here is an example configuration that you can use as a starting point: [Demo - Deployment](./demo)
-
 
 ## How this flake works
 
