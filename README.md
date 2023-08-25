@@ -10,11 +10,11 @@ Default user: `rk`, default password: `rk3588`
 
 ## Boards
 
-| Singal Board Computer | minimal bootable image |
-| --------------------- | ---------------------- |
-| Orange Pi 5           | :heavy_check_mark:     |
-| Orange Pi 5 Plus      | :heavy_check_mark:     |
-| Rock 5A               | :no_entry_sign:        |
+| Singal Board Computer | Boot from SD card  | Boot from SSD      |
+| --------------------- | ------------------ | ------------------ |
+| Orange Pi 5           | :heavy_check_mark: | :heavy_check_mark: |
+| Orange Pi 5 Plus      | :heavy_check_mark: | :no_entry_sign:    |
+| Rock 5A               | :no_entry_sign:    | :no_entry_sign:    |
 
 ## TODO
 
@@ -37,6 +37,7 @@ Default user: `rk`, default password: `rk3588`
       1. download the image and flash it to a sd card first
       2. boot the board with the sd card, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
 2. build an sdImage by `nix build`, and then flash it to a sd card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card)):
+
    ```shell
    # for orange pi 5 plus
    nix build .#sdImage-opi5plus
@@ -46,6 +47,7 @@ Default user: `rk`, default password: `rk3588`
    nix build .#sdImage-opi5
    zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
    ```
+
 3. insert the sd card to the board, and power on
 4. resize the root partition to the full size of the sd card.
 5. then having fun with NixOS
