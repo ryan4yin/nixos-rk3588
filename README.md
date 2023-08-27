@@ -5,6 +5,8 @@
 A minimal flake to run NixOS on RK3588/RK3588s based SBCs.
 
 ![](_img/nixos-on-orangepi5.webp)
+![](_img/nixos-orangepiplus.webp)
+![](_img/nixos-rock5a.webp)
 
 Default user: `rk`, default password: `rk3588`
 
