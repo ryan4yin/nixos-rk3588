@@ -46,6 +46,8 @@ For Rock 5A, we've flashed the uboot to the sdImage by default, so you don't nee
 
 Build an sdImage by `nix build`, and then flash it to a sd card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card)):
 
+> Instead of build from source, you can also download the prebuilt image from [Releases](https://github.com/ryan4yin/nixos-rk3588/releases).
+
 ```shell
 # for orange pi 5 plus
 nix build .#sdImage-opi5plus
