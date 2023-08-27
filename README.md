@@ -54,19 +54,37 @@ zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progre
 # for orange pi 5
 nix build .#sdImage-opi5
 zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+```
 
-# for rock 5a
+
+For Rock 5A, it requires a little more work to flash the image to the sd card:
+
+```shell
 nix build .#sdImage-rock5a
-zstdcat result/sd-image/rock5a-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+zstd -d result/sd-image/rock5a-sd-image-*.img.zst -o rock5a.img
+
+# increase img's file size
+dd if=/dev/zero bs=1M count=16 >> rock5a.img
+sudo losetup --find --partscan rock5a.img
 
 nix shell nixpkgs#parted
 ## rock 5a's u-boot require to use gpt partition table, and the root partition must be the first partition!
 ## so we need to remove all the partitions on the sd card first
 ## and then recreate the root partition with the same start sector as the original partition 2
 START=$(sudo fdisk -l /dev/loop0 | grep /dev/loop0p2 | awk '{print $2}')
-sudo parted /dev/sdX rm 1
-sudo parted /dev/sdX rm 2
-sudo parted /dev/sdX mkpart primary ext4 ${START}s 100%
+sudo parted /dev/loop0 rm 1
+sudo parted /dev/loop0 rm 2
+sudo parted /dev/loop0 mkpart primary ext4 ${START}s 100%
+
+# check rootfs's status, it's broken.
+sudo fsck /dev/loop0p1
+
+# umount the image file
+sudo losetup -d /dev/loop0
+
+
+# flash the image to the sd card
+sudo dd status=progress bs=4M if=rock5a.img of=/dev/sdX
 ```
 
 1. insert the sd card to the board, and power on
