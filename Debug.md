@@ -14,7 +14,9 @@ Orange Pi 5 Plus's debugging serial port:
 ![](/_img/orangepi5plus-serialport.webp)
 
 
-Rock 5A's do not have a debugging serial port, NixOS will print the boot log to UART0 by default, see the official documentation for the pin definition of UART0: [Rock 5A pinout - Radxa Wiki](https://wiki.radxa.com/Rock5/hardware/5a/gpio)
+Rock 5A's do not have a debugging serial port, NixOS will print the boot log to UART0 by default, see the official documentation for the pin definition of UART2: [Rock 5A pinout - Radxa Wiki](https://wiki.radxa.com/Rock5/hardware/5a/gpio)
+
+![](/_img/rock5a-serial-console.webp)
 
 Then, use tools like 'screen' or 'minicom' to read and write to the serial port device.
 
