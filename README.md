@@ -40,13 +40,7 @@ You should get the uboot from the vendor and flash it to the SPI flash before do
    1. download the image and flash it to a sd card first
    2. boot the board with the sd card, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
 
-For Rock 5A, it's a bit more complicated, you need to enable the SPI flash first, and then flash the uboot to the SPI flash:
-
-1. [Armbian on Rock 5A](https://www.armbian.com/rock-5/)
-   1. download the image for rock 5a and flash it to a sd card first
-   2. boot the board with the sd card, and then save the SPI flash overlay [rockchip/overlays/rock-5a-spi-flash.dts](https://github.com/radxa/overlays/blob/main/arch/arm64/boot/dts/rockchip/overlays/rock-5a-spi-flash.dts) to a file.
-   3. and then run `sudo armbian-add-overlay /path/to/rock-5a-spi-flash.dts` to enable the SPI flash.
-   4. reboot the board, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
+For Rock 5A, we've flashed the uboot to the sdImage by default, so you don't need to flash it into the SPI flash again.
 
 ### Flash NixOS to SD card
 
@@ -64,6 +58,15 @@ zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress b
 # for rock 5a
 nix build .#sdImage-rock5a
 zstdcat result/sd-image/rock5a-sd-image-*.img.zst | sudo dd status=progress bs=4M of=/dev/sdX
+
+nix shell nixpkgs#parted
+## rock 5a's u-boot require to use gpt partition table, and the root partition must be the first partition!
+## so we need to remove all the partitions on the sd card first
+## and then recreate the root partition with the same start sector as the original partition 2
+START=$(sudo fdisk -l /dev/loop0 | grep /dev/loop0p2 | awk '{print $2}')
+sudo parted /dev/sdX rm 1
+sudo parted /dev/sdX rm 2
+sudo parted /dev/sdX mkpart primary ext4 ${START}s 100%
 ```
 
 1. insert the sd card to the board, and power on
