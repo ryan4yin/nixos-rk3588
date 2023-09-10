@@ -12,6 +12,8 @@ Modify the nix files in this directory to fit your needs.
 
 Then, run the following command to deploy the configuration to your remote server:
 
+> The first time you run this command, it will take a long time(maybe 40 minutes to hours) to build the whole system, but the next time you run it, it will be much faster.
+
 ```bash
 nix run nixpkgs#colmena apply 
 ```
@@ -25,7 +27,9 @@ To deploy locally, we need to compile the whole system natively on the rk3588 ba
 1. Replace `system = "x86_64-linux";` to `system = "aarch64-linux";`
 2. Remove the config related to `nixpkgs.crossSystem`, it's not needed anymore.
 
-Then, run the following command to deploy the configuration locally
+Then, run the following command to deploy the configuration locally:
+
+> The first time you run this command, it will take a long time(maybe 40 minutes to hours) to build the whole system, but the next time you run it, it will be much faster.
 
 ```bash
 nix run nixpkgs#colmena apply-local
