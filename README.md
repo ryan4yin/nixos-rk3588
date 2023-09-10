@@ -150,7 +150,7 @@ The primary steps involved are:
 
 1. Build U-Boot using this Flake.
    - Since no customization is required for U-Boot, it's also possible to directly use the precompiled U-Boot from Armbian or the hardware vendor.
-2. Build the NixOS rootfs using this Flake, leveraging the kernel and device tree provided by Armbian.
+2. Build the NixOS rootfs using this flake, leveraging the kernel and device tree provided by Armbian.
    - To make all the hardware features available, we need to add its firmwares to the rootfs. Since there is no customization required for the firmwares too, we can directly use the precompiled firmwares from Armbian & Vendor.
 
 Related Armbian projects:
