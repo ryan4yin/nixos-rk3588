@@ -34,7 +34,7 @@ Default user: `rk`, default password: `rk3588`
 
 ## Flash into SD card
 
-### Flash U-Boot to SPI flash
+### 1. Flash U-Boot to SPI flash
 
 You should get the uboot from the vendor and flash it to the SPI flash before doing anything NixOS
 
@@ -42,9 +42,9 @@ You should get the uboot from the vendor and flash it to the SPI flash before do
    1. download the image and flash it to a sd card first
    2. boot the board with the sd card, and then run `sudo armbian-install` to flash the uboot to the SPI flash(maybe named as `MTD devices`)
 
-For Rock 5A, we've flashed the uboot to the sdImage by default, so you don't need to flash it into the SPI flash again.
+For Rock 5A, we've bundled the uboot into the sdImage, so you don't need to flash it into the SPI flash manually.
 
-### Flash NixOS to SD card
+### 2. Flash NixOS to SD card
 
 Build an sdImage by `nix build`, and then flash it to a sd card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card)):
 
