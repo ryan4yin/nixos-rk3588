@@ -26,7 +26,6 @@ To deploy locally, we need to compile the whole system natively on the rk3588 ba
 Then, run the following command to deploy the configuration locally
 
 ```bash
-# To deploy to localhost, use this instead:
 nix run nixpkgs#colmena apply-local
 ```
 
