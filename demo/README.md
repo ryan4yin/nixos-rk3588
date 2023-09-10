@@ -1,5 +1,7 @@
 # Demo - Deploy via Colmena
 
+> Colmena is my personal choice mainly for remote deployment, you can use other tools like `nixos-rebuild switch --flake .#opi5` to deploy your configuration, but I won't cover them here.
+
 This is a demo of how to deploy NixOS to a remote server(or to localhost) using [colmena](https://github.com/zhaofengli/colmena).
 
 If you're not familiar with remote deployment, please read this tutorial first: [Remote Deployment - NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment)
