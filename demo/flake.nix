@@ -12,7 +12,8 @@
     nixos-rk3588,
     ...
   }: let
-    system = "x86_64-linux";
+    system = "x86_64-linux"; # for cross-compilation on x86_64-linux
+    # system = "aarch64-linux";  # for native compilation on aarch64-linux
   in {
     colmena = {
       meta = {
@@ -29,10 +30,12 @@
         deployment.targetHost = "192.168.5.42";
         deployment.targetUser = "root";
         # Allow local deployment with `colmena apply-local`
-        deployment.allowLocalDeployment = true;
+        # deployment.allowLocalDeployment = true;
 
         imports = [
           {
+            # Use the crossSystem configuration for cross-compilation
+            # Remove this module if you want to compile natively on aarch64-linux!
             nixpkgs.crossSystem = {
               config = "aarch64-unknown-linux-gnu";
             };
