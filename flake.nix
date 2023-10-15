@@ -45,6 +45,25 @@
           ];
       };
 
+      # Orange Pi 5B SBC
+      orangepi5b = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules =
+          [
+            {
+              networking.hostName = "orangepi5b";
+
+              nixpkgs.crossSystem = {
+                config = "aarch64-unknown-linux-gnu";
+              };
+            }
+
+            ./modules/boards/orangepi5b.nix
+            ./modules/user-group.nix
+          ];
+      };
+
       # Orange Pi 5 Plus SBC
       # TODO not complete yet
       orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
@@ -89,6 +108,7 @@
     packages.x86_64-linux = {
       # sdImage
       sdImage-opi5 = self.nixosConfigurations.orangepi5.config.system.build.sdImage;
+      sdImage-opi5b = self.nixosConfigurations.orangepi5b.config.system.build.sdImage;
       sdImage-opi5plus = self.nixosConfigurations.orangepi5plus.config.system.build.sdImage;
       sdImage-rock5a = self.nixosConfigurations.rock5a.config.system.build.sdImage;
 
