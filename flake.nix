@@ -60,6 +60,7 @@
             }
 
             ./modules/boards/orangepi5b.nix
+						./configuration-light.nix # user cfg
             ./modules/user-group.nix
           ];
       };
