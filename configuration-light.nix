@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, nixpkgs, lib, ... }:
 
 {
 
@@ -12,29 +12,44 @@
     TERM = "foot";
     TERMINAL = "foot";
     BROWSER = "firefox";
-    VISUAL = "nvim";
+    #VISUAL = "nvim";
   };
 
-  # NeoVim
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    configure = {
-      customRC = ''
-        set number
-        set tabstop=2
-        set shiftwidth=2
-      '';
-    };
+	nix.settings = {
+    # Manual optimise storage: nix-store --optimise
+    # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
+    #auto-optimise-store = true;
+    builders-use-substitutes = true;
+    # enable flakes globally
+    experimental-features = ["nix-command" "flakes"];
   };
+
+	# make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
+  nix.registry.nixpkgs.flake = nixpkgs;
+  # make `nix repl '<nixpkgs>'` use the same nixpkgs as the one used by this flake.
+  environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
+  nix.nixPath = ["/etc/nix/inputs"];
+
+  # NeoVim
+  #programs.neovim = {
+  #  enable = true;
+  #  defaultEditor = true;
+  #  configure = {
+  #    customRC = ''
+  #      set number
+  #      set tabstop=2
+  #      set shiftwidth=2
+  #    '';
+  #  };
+  #};
 
   # Hyprland
   programs.hyprland.enable = true;
 
   # fish shell
-  programs.fish.enable = true;
-  users.defaultUserShell = pkgs.fish;
-  environment.shells = with pkgs; [ fish ];
+  #programs.fish.enable = true;
+  #users.defaultUserShell = pkgs.fish;
+  #environment.shells = with pkgs; [ fish ];
 
   # Bootloader stuff
   boot.loader.grub.enable = false;
@@ -44,13 +59,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking and set hostname
-  networking = {
-    hostName = "nixos";
-    networkmanager.enable = true;
-    wireless.enable = false;
-  };
-
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -58,7 +66,7 @@
   i18n.defaultLocale = "de_DE.utf8";
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  #services.xserver.enable = true;
 
   # Fonts
   fonts.fonts = with pkgs; [
@@ -92,35 +100,35 @@
   };
 
   # Configure keymap in X11
-  services.xserver = {
-    layout = "de";
-    xkbVariant = "";
-  };
+  #services.xserver = {
+  #  layout = "de";
+  #  xkbVariant = "";
+  #};
 
   # Configure console keymap
   console.keyMap = "de";
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # services.printing.enable = true;
 
   # XDG stuff
   services.dbus.enable = true;
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
+  #xdg.portal = {
+    #enable = true;
+    #extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  #};
 
   # Enable gvfs (mount, trash...) for thunar
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
+  #services.gvfs.enable = true; # Mount, trash, and other functionalities
+  #services.tumbler.enable = true; # Thumbnail support for images
 
-  nixpkgs.overlays = [
-    (self: super: {
-      waybar = super.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
-    })
-  ];
+  #nixpkgs.overlays = [
+  #  (self: super: {
+  #    waybar = super.waybar.overrideAttrs (oldAttrs: {
+  #      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+  #    });
+  #  })
+  #];
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -136,45 +144,46 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget
+    #hyprland
+		wget
     minizip
     git
     foot
     gnome3.adwaita-icon-theme
-    waybar
-    xdg-desktop-portal
-    xdg-desktop-portal-hyprland
+    #waybar
+    #xdg-desktop-portal
+    #xdg-desktop-portal-hyprland
     grim
     slurp
     pipewire
     wireplumber
     pavucontrol
-    xfce.thunar
-    hyprpaper
+    #xfce.thunar
+    #hyprpaper
     gnome.gnome-themes-extra
-    imv
+    #imv
     rofi-wayland
     ranger
     neofetch
-    mpv
+    #mpv
     mako
     wl-clipboard
-    brightnessctl
+    #brightnessctl
     killall
-    playerctl
+    #playerctl
     #mpc-cli
     unzip
     #ffmpeg
-    xarchiver
+    #xarchiver
     #obs-studio
     #python3
     polkit
-    polkit-kde-agent
+    #polkit-kde-agent
     #chromium
-		superTuxKart
+		#superTuxKart
   ];
 
-  system.stateVersion = "23.05"; # Did you read the comment?
+  #system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 
