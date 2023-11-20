@@ -1,18 +1,19 @@
 # =========================================================================
 #      Rock 5 Model A Specific Configuration
 # =========================================================================
-{
-  lib,
-  config,
-  pkgs,
-  nixpkgs,
-  ...
-}: let
+{ lib
+, config
+, pkgs
+, nixpkgs
+, ...
+}:
+let
   boardName = "rock5a";
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
   # rkbin-rk3588 = pkgs.callPackage ../../pkgs/rkbin-rk3588 {};
-  uboot = pkgs.callPackage ../../pkgs/u-boot/radxa-prebuilt.nix {};
-in {
+  uboot = pkgs.callPackage ../../pkgs/u-boot/radxa-prebuilt.nix { };
+in
+{
   imports = [
     ./base.nix
     ../sd-image-rockchip.nix
@@ -21,7 +22,7 @@ in {
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../pkgs/kernel/legacy.nix {});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../pkgs/kernel/legacy.nix { });
 
     # kernelParams copy from rock5a's official debian image's /boot/extlinux/extlinux.conf
     # https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
@@ -82,7 +83,7 @@ in {
     imageBaseName = "${boardName}-sd-image";
     compressImage = true;
 
-    firmwarePartitionOffset = 32; 
+    firmwarePartitionOffset = 32;
     populateFirmwareCommands = "";
 
     populateRootCommands = ''

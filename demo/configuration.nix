@@ -1,4 +1,4 @@
-{config, pkgs, nixpkgs, ...}: {
+{ config, pkgs, nixpkgs, ... }: {
 
   # =========================================================================
   #      Base NixOS Configuration
@@ -16,14 +16,14 @@
     auto-optimise-store = true;
     builders-use-substitutes = true;
     # enable flakes globally
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [ "nix-command" "flakes" ];
   };
 
   # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
   nix.registry.nixpkgs.flake = nixpkgs;
   # make `nix repl '<nixpkgs>'` use the same nixpkgs as the one used by this flake.
   environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-  nix.nixPath = ["/etc/nix/inputs"];
+  nix.nixPath = [ "/etc/nix/inputs" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -33,12 +33,12 @@
     neovim
 
     # networking
-    mtr      # A network diagnostic tool
-    iperf3   # A tool for measuring TCP and UDP bandwidth performance
-    nmap     # A utility for network discovery and security auditing
-    ldns     # replacement of dig, it provide the command `drill`
-    socat    # replacement of openbsd-netcat
-    tcpdump  # A powerful command-line packet analyzer
+    mtr # A network diagnostic tool
+    iperf3 # A tool for measuring TCP and UDP bandwidth performance
+    nmap # A utility for network discovery and security auditing
+    ldns # replacement of dig, it provide the command `drill`
+    socat # replacement of openbsd-netcat
+    tcpdump # A powerful command-line packet analyzer
 
     # archives
     zip
@@ -72,7 +72,7 @@
     enable = true;
     settings = {
       X11Forwarding = true;
-      PermitRootLogin = "prohibit-password";  # disable root login with password
+      PermitRootLogin = "prohibit-password"; # disable root login with password
       PasswordAuthentication = false; # disable password login
     };
     openFirewall = true;

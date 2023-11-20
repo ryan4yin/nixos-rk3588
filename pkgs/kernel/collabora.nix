@@ -8,12 +8,10 @@
 # If you already have a generated configuration file, you can build a kernel that uses it with pkgs.linuxManualConfig
 # The difference between deconfig and the generated configuration file is that the generated configuration file is more complete,
 # 
-{
-
-  fetchzip,
-  linuxManualConfig,
-  ubootTools,
-  ...
+{ fetchzip
+, linuxManualConfig
+, ubootTools
+, ...
 }:
 (linuxManualConfig {
   version = "6.5-collabora-rk3588";
@@ -23,9 +21,9 @@
     # branch: rk3588
     # date: 2023-07-21
     url = "https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/archive/7a5aac740d804bf907bb3781c011a051fdcabd7e/linux-7a5aac740d804bf907bb3781c011a051fdcabd7e.zip";
-    sha256 ="";
+    sha256 = "";
   };
-  
+
   # Path to the generated kernel config file
   # 
   # You can generate the kernel config file based on the defconfig.
@@ -47,8 +45,7 @@
   extraMeta.branch = "5.10";
 
   allowImportFromDerivation = true;
-})
-.overrideAttrs (old: {
+}).overrideAttrs (old: {
   name = "k"; # dodge uboot length limits
-  nativeBuildInputs = old.nativeBuildInputs ++ [ubootTools];
+  nativeBuildInputs = old.nativeBuildInputs ++ [ ubootTools ];
 })

@@ -1,6 +1,5 @@
-{
-  pkgs,
-  ...
+{ pkgs
+, ...
 }:
 
 let
@@ -13,18 +12,18 @@ let
 in
 {
   nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [ "nix-command" "flakes" ];
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git      # used by nix flakes
+    git # used by nix flakes
     curl
 
     neofetch
-    lm_sensors  # `sensors`
-    btop     # monitor system resources
+    lm_sensors # `sensors`
+    btop # monitor system resources
 
     # Peripherals
     mtdutils
@@ -51,7 +50,7 @@ in
     inherit hashedPassword;
     isNormalUser = true;
     home = "/home/${username}";
-    extraGroups = [ "users" "networkmanager" "wheel" "video" "docker"];
+    extraGroups = [ "users" "networkmanager" "wheel" "video" "docker" ];
     openssh.authorizedKeys.keys = [
       publickey
     ];
@@ -62,7 +61,7 @@ in
   ];
 
   users.groups = {
-    "${username}" = {};
-    docker = {};
+    "${username}" = { };
+    docker = { };
   };
 }

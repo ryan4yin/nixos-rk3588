@@ -1,5 +1,5 @@
-{
-  stdenv,
+{ stdenv
+,
 }:
 
 let
@@ -8,7 +8,7 @@ let
   # And the unpack `output/debs/linux-u-boot-rock-5a-legacy_xxx.deb` to get the files below.
   idbloader_img = ./linux-u-boot-legacy-rock-5a/idbloader.img;
   u_boot_itb = ./linux-u-boot-legacy-rock-5a/u-boot.itb;
-in 
+in
 stdenv.mkDerivation {
   pname = "u-boot-prebuilt";
   version = "unstable-2023-08-27";

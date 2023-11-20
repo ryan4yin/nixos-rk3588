@@ -1,12 +1,11 @@
 # =========================================================================
 #      Orange Pi 5 Plus Specific Configuration
 # =========================================================================
-{
-  config,
-  pkgs,
-  nixpkgs,
-  ...
-}: 
+{ config
+, pkgs
+, nixpkgs
+, ...
+}:
 
 let
   boardName = "orangepi5plus";
@@ -19,7 +18,7 @@ in
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../pkgs/kernel/legacy.nix {});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../pkgs/kernel/legacy.nix { });
 
     # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [
@@ -27,10 +26,10 @@ in
       "rootwait"
       "rootfstype=ext4"
 
-      "earlycon"  # enable early console, so we can see the boot messages via serial port / HDMI
-      "consoleblank=0"  # disable console blanking(screen saver)
+      "earlycon" # enable early console, so we can see the boot messages via serial port / HDMI
+      "consoleblank=0" # disable console blanking(screen saver)
       "console=ttyS2,1500000" # serial port
-      "console=tty1"          # HDMI
+      "console=tty1" # HDMI
 
       # docker optimizations
       "cgroup_enable=cpuset"

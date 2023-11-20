@@ -8,11 +8,10 @@
 # If you already have a generated configuration file, you can build a kernel that uses it with pkgs.linuxManualConfig
 # The difference between deconfig and the generated configuration file is that the generated configuration file is more complete,
 # 
-{
-  fetchzip,
-  linuxManualConfig,
-  ubootTools,
-  ...
+{ fetchzip
+, linuxManualConfig
+, ubootTools
+, ...
 }:
 (linuxManualConfig {
   version = "5.10.160-armbian-rk3588";
@@ -23,7 +22,7 @@
     # branch: rk-5.10-rkr4
     # date: 2023-08-08
     url = "https://github.com/armbian/linux-rockchip/archive/8cae9a3e884071996260905575b55136e2480f6b.zip";
-    sha256 ="sha256-9pp9OXRMY8RUq4Fn5AcYhiGeyXXDPRAm9fUVzQV5L2k=";
+    sha256 = "sha256-9pp9OXRMY8RUq4Fn5AcYhiGeyXXDPRAm9fUVzQV5L2k=";
   };
 
   # Path to the generated kernel config file
@@ -47,8 +46,7 @@
   extraMeta.branch = "5.10";
 
   allowImportFromDerivation = true;
-})
-.overrideAttrs (old: {
+}).overrideAttrs (old: {
   name = "k"; # dodge uboot length limits
-  nativeBuildInputs = old.nativeBuildInputs ++ [ubootTools];
+  nativeBuildInputs = old.nativeBuildInputs ++ [ ubootTools ];
 })

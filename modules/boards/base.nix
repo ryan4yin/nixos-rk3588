@@ -1,8 +1,7 @@
-{
-  lib,
-  pkgs,
-  mesa-panfork,
-  ...
+{ lib
+, pkgs
+, mesa-panfork
+, ...
 }:
 
 {
@@ -38,24 +37,22 @@
       enable = lib.mkDefault true;
       package =
         lib.mkForce
-        (
-          (pkgs.mesa.override {
-            galliumDrivers = ["panfrost" "swrast"];
-            vulkanDrivers = ["swrast"];
-          })
-          .overrideAttrs (_: {
-            pname = "mesa-panfork";
-            version = "23.0.0-panfork";
-            src = mesa-panfork;
-          })
-        )
-        .drivers;
+          (
+            (pkgs.mesa.override {
+              galliumDrivers = [ "panfrost" "swrast" ];
+              vulkanDrivers = [ "swrast" ];
+            }).overrideAttrs (_: {
+              pname = "mesa-panfork";
+              version = "23.0.0-panfork";
+              src = mesa-panfork;
+            })
+          ).drivers;
     };
 
     enableRedistributableFirmware = lib.mkForce true;
     firmware = [
       # firmware for Mali-G610 GPU
-      (pkgs.callPackage ../../pkgs/mali-firmware {})
+      (pkgs.callPackage ../../pkgs/mali-firmware { })
     ];
   };
 
