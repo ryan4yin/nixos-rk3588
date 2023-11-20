@@ -25,66 +25,36 @@
       ];
     };
   in {
-    nixosConfigurations = {
+    nixosModules = {
       # Orange Pi 5 SBC
-      orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5";
-
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
-
-            ./modules/boards/orangepi5.nix
-            ./modules/configuration.nix
-          ];
-      };
-
+      orangepi5 = import ./modules/boards/orangepi5.nix;
       # Orange Pi 5 Plus SBC
       # TODO not complete yet
-      orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5plus";
-
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
-
-            ./modules/boards/orangepi5plus.nix
-            ./modules/configuration.nix
-          ];
-      };
-
+      orangepi5plus = import ./modules/boards/orangepi5plus.nix;
       # Rock 5 Model A SBC
       # TODO not complete yet
-      rock5a = import "${nixpkgs}/nixos/lib/eval-config.nix" {
+      rock5a = import ./modules/boards/rock5a.nix;
+    };
+
+    nixosConfigurations = builtins.mapAttrs (name: module:
+      import "${nixpkgs}/nixos/lib/eval-config.nix" {
         system = "x86_64-linux";
         specialArgs = inputs;
         modules =
           [
             {
-              networking.hostName = "rock5a";
+              networking.hostName = name;
 
               nixpkgs.crossSystem = {
                 config = "aarch64-unknown-linux-gnu";
               };
             }
 
-            ./modules/boards/rock5a.nix
+            module
             ./modules/configuration.nix
           ];
-      };
-    };
+      })
+      self.nixosModules;
 
     packages.x86_64-linux = {
       # sdImage
