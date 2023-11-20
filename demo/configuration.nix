@@ -1,4 +1,4 @@
-{ config, pkgs, nixpkgs, ... }: {
+{ pkgs, nixpkgs, ... }: {
 
   # =========================================================================
   #      Base NixOS Configuration

@@ -24,8 +24,7 @@ with lib;
 
 let
   rootfsImage = pkgs.callPackage "${modulesPath}/../lib/make-ext4-fs.nix" ({
-    inherit (config.sdImage) storePaths;
-    compressImage = config.sdImage.compressImage;
+    inherit (config.sdImage) storePaths compressImage;
     populateImageCommands = config.sdImage.populateRootCommands;
     volumeLabel = "NIXOS_SD";
   } // optionalAttrs (config.sdImage.rootPartitionUUID != null) {
@@ -222,7 +221,7 @@ in
 
           # Have to use GPT for the disk table, otherwise licheepi's u-boot will report:
           #    ** Unrecognized filesystem type **
-          # 
+          #
           # The "bootable" partition is where u-boot will look file for the bootloader
           # information (dtbs, extlinux.conf file).
           #

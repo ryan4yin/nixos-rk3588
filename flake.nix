@@ -10,9 +10,20 @@
       url = "gitlab:panfork/mesa/csf";
       flake = false;
     };
+
+    # For CI checks
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        flake-compat.follows = "";
+      };
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, pre-commit-hooks, ... }:
     {
       nixosModules = {
         # Orange Pi 5 SBC
@@ -53,11 +64,12 @@
           crossSystem.config = "aarch64-unknown-linux-gnu";
 
           overlays = [
-            (self: super: {
+            (_self: super: {
               linuxPackages_rockchip = super.linuxPackagesFor (super.callPackage ./pkgs/kernel/legacy.nix { });
             })
           ];
         };
+        pkgs = import nixpkgs { inherit system; };
       in
       {
         packages = {
@@ -85,9 +97,6 @@
         # the code here is mainly copied from:
         #   https://nixos.wiki/wiki/Linux_kernel#Embedded_Linux_Cross-compile_xconfig_and_menuconfig
         devShells.fhsEnv =
-          let
-            pkgs = import nixpkgs { inherit system; };
-          in
           (pkgs.buildFHSUserEnv {
             name = "kernel-build-env";
             targetPkgs = pkgs_: (with pkgs_;
@@ -113,5 +122,19 @@
               exec bash
             '';
           }).env;
+
+        devShells.default = pkgs.mkShell {
+          inherit (self.checks.${system}.pre-commit-check) shellHook;
+        };
+
+        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            # nix
+            deadnix.enable = true;
+            nixpkgs-fmt.enable = true;
+            statix.enable = true;
+          };
+        };
       });
 }

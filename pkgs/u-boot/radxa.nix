@@ -1,11 +1,10 @@
 # TODO not working yet!
-{ lib
-, buildUBoot
+{ buildUBoot
 , fetchFromGitHub
 , rkbin-rk3588
-,
+, ...
 }:
-(buildUBoot rec {
+(buildUBoot {
   version = "2023.08.27";
 
   # https://github.com/radxa/u-boot/tree/stable-5.10-rock5
@@ -39,6 +38,6 @@
     "idbloader.img"
   ];
 
-}).overrideAttrs (oldAttrs: {
+}).overrideAttrs (_oldAttrs: {
   patches = [ ]; # remove all patches, which is not compatible with thead-u-boot
 })

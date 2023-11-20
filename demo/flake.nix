@@ -8,8 +8,7 @@
   };
 
   outputs =
-    { self
-    , nixos-rk3588
+    { nixos-rk3588
     , ...
     }:
     let
@@ -24,33 +23,29 @@
           specialArgs = nixos-rk3588.inputs;
         };
 
-        opi5 =
-          { name
-          , nodes
-          , ...
-          }: {
-            deployment.targetHost = "192.168.5.42";
-            deployment.targetUser = "root";
-            # Allow local deployment with `colmena apply-local`
-            # deployment.allowLocalDeployment = true;
+        opi5 = {
+          deployment.targetHost = "192.168.5.42";
+          deployment.targetUser = "root";
+          # Allow local deployment with `colmena apply-local`
+          # deployment.allowLocalDeployment = true;
 
-            imports = [
-              {
-                # Use the crossSystem configuration for cross-compilation
-                # Remove this module if you want to compile natively on aarch64-linux!
-                nixpkgs.crossSystem = {
-                  config = "aarch64-unknown-linux-gnu";
-                };
-              }
+          imports = [
+            {
+              # Use the crossSystem configuration for cross-compilation
+              # Remove this module if you want to compile natively on aarch64-linux!
+              nixpkgs.crossSystem = {
+                config = "aarch64-unknown-linux-gnu";
+              };
+            }
 
-              # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
-              nixos-rk3588.nixosModules.orangepi5
+            # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
+            nixos-rk3588.nixosModules.orangepi5
 
-              # your custom configuration
-              ./configuration.nix
-              ./user-group.nix
-            ];
-          };
+            # your custom configuration
+            ./configuration.nix
+            ./user-group.nix
+          ];
+        };
       };
     };
 }
