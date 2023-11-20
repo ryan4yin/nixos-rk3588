@@ -27,7 +27,7 @@
   in {
     nixosConfigurations = {
       # Orange Pi 5 SBC
-      orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
+      orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" {
         system = "x86_64-linux";
         specialArgs = inputs;
         modules =
@@ -41,13 +41,13 @@
             }
 
             ./modules/boards/orangepi5.nix
-            ./modules/user-group.nix
+            ./modules/configuration.nix
           ];
       };
 
       # Orange Pi 5 Plus SBC
       # TODO not complete yet
-      orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
+      orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" {
         system = "x86_64-linux";
         specialArgs = inputs;
         modules =
@@ -61,13 +61,13 @@
             }
 
             ./modules/boards/orangepi5plus.nix
-            ./modules/user-group.nix
+            ./modules/configuration.nix
           ];
       };
 
       # Rock 5 Model A SBC
       # TODO not complete yet
-      rock5a = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
+      rock5a = import "${nixpkgs}/nixos/lib/eval-config.nix" {
         system = "x86_64-linux";
         specialArgs = inputs;
         modules =
@@ -81,7 +81,7 @@
             }
 
             ./modules/boards/rock5a.nix
-            ./modules/user-group.nix
+            ./modules/configuration.nix
           ];
       };
     };
@@ -96,7 +96,7 @@
       # use `nix develop` to enter the environment with the custom kernel build environment available.
       # and then use `unpackPhase` to unpack the kernel source code and cd into it.
       # then you can use `make menuconfig` to configure the kernel.
-      # 
+      #
       # problem
       #   - using `make menuconfig` - Unable to find the ncurses package.
       # Solution
