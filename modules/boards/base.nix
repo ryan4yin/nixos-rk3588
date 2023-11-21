@@ -1,9 +1,13 @@
 { lib
 , pkgs
-, mesa-panfork
+, rk3588
 , ...
 }:
 
+
+let
+  inherit (rk3588) mesa-panfork;
+in
 {
   # =========================================================================
   #      Base NixOS Configuration

@@ -3,11 +3,13 @@
 # =========================================================================
 { config
 , pkgs
-, nixpkgs
+, rk3588
 , ...
 }:
 
 let
+  inherit (rk3588) nixpkgs;
+
   boardName = "orangepi5";
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
 in

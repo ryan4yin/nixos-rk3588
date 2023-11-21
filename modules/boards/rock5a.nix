@@ -4,10 +4,12 @@
 { lib
 , config
 , pkgs
-, nixpkgs
+, rk3588
 , ...
 }:
 let
+  inherit (rk3588) nixpkgs;
+
   boardName = "rock5a";
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
   # rkbin-rk3588 = pkgs.callPackage ../../pkgs/rkbin-rk3588 {};
