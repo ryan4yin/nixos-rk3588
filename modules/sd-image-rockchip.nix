@@ -26,8 +26,7 @@
 }:
 with lib; let
   rootfsImage = pkgs.callPackage "${modulesPath}/../lib/make-ext4-fs.nix" ({
-      inherit (config.sdImage) storePaths;
-      compressImage = config.sdImage.compressImage;
+      inherit (config.sdImage) storePaths compressImage;
       populateImageCommands = config.sdImage.populateRootCommands;
       volumeLabel = "NIXOS_SD";
     }
