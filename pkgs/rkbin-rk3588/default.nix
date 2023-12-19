@@ -1,5 +1,7 @@
-{ stdenvNoCC, fetchFromGitHub }:
-
+{
+  stdenvNoCC,
+  fetchFromGitHub,
+}:
 stdenvNoCC.mkDerivation {
   pname = "rkbin-rk3588";
   version = "0.0.1";

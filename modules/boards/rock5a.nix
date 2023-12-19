@@ -82,7 +82,7 @@ in {
     imageBaseName = "${boardName}-sd-image";
     compressImage = true;
 
-    firmwarePartitionOffset = 32; 
+    firmwarePartitionOffset = 32;
     populateFirmwareCommands = "";
 
     populateRootCommands = ''

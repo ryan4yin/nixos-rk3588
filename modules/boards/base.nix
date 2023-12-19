@@ -3,9 +3,7 @@
   pkgs,
   mesa-panfork,
   ...
-}: 
-
-{
+}: {
   # =========================================================================
   #      Base NixOS Configuration
   # =========================================================================
@@ -17,12 +15,12 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git      # used by nix flakes
+    git # used by nix flakes
     curl
 
     neofetch
-    lm_sensors  # `sensors`
-    btop     # monitor system resources
+    lm_sensors # `sensors`
+    btop # monitor system resources
 
     # Peripherals
     mtdutils
@@ -56,7 +54,7 @@
     };
 
     initrd.includeDefaultModules = false;
-    initrd.availableKernelModules = lib.mkForce [ "dm_mod" "dm_crypt" "encrypted_keys" ];
+    initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys"];
   };
 
   powerManagement.cpuFreqGovernor = "ondemand";
