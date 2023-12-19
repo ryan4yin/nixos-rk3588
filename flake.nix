@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05-small";
+    flake-utils.url = "github:numtide/flake-utils";
 
     # GPU drivers
     mesa-panfork = {
@@ -11,20 +12,8 @@
     };
   };
 
-  outputs = inputs@{self, nixpkgs, ...}: let
-    pkgsKernel = import nixpkgs {
-      system = "x86_64-linux";
-      crossSystem = {
-        config = "aarch64-unknown-linux-gnu";
-      };
-
-      overlays = [
-        (self: super: {
-          linuxPackages_rockchip = super.linuxPackagesFor (super.callPackage ./pkgs/kernel/legacy.nix {});
-        })
-      ];
-    };
-  in {
+  outputs = inputs@{self, nixpkgs, flake-utils, ...}:
+  {
     nixosModules = {
       # Orange Pi 5 SBC
       orangepi5 = import ./modules/boards/orangepi5.nix;
@@ -53,8 +42,22 @@
         ];
       })
       self.nixosModules;
+    } // flake-utils.lib.eachDefaultSystem (system:
+    let
+      pkgsKernel = import nixpkgs {
+        inherit system;
 
-    packages.x86_64-linux = {
+        crossSystem.config = "aarch64-unknown-linux-gnu";
+
+        overlays = [
+          (self: super: {
+            linuxPackages_rockchip = super.linuxPackagesFor (super.callPackage ./pkgs/kernel/legacy.nix {});
+          })
+        ];
+      };
+    in
+  {
+    packages = {
       # sdImage
       sdImage-opi5 = self.nixosConfigurations.orangepi5.config.system.build.sdImage;
       sdImage-opi5plus = self.nixosConfigurations.orangepi5plus.config.system.build.sdImage;
@@ -75,11 +78,10 @@
 
     # use `nix develop .#fhsEnv` to enter the fhs test environment defined here.
     # for kernel debugging
-    devShells.x86_64-linux.fhsEnv = let
-      pkgs = import nixpkgs {
-        system = "x86_64-linux";
-      };
-    in
+    devShells.fhsEnv =
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
       # the code here is mainly copied from:
       #   https://nixos.wiki/wiki/Linux_kernel#Embedded_Linux_Cross-compile_xconfig_and_menuconfig
       (pkgs.buildFHSUserEnv {
@@ -107,5 +109,5 @@
           exec bash
         '';
       }).env;
-  };
+  });
 }
