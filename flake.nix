@@ -54,7 +54,7 @@
             }
 
             module
-            ./modules/user-group.nix
+            ./modules/configuration.nix
           ];
         })
       self.nixosModules;
