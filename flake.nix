@@ -45,14 +45,12 @@
       nixosConfigurations = builtins.mapAttrs (name: module:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = inputs;
+          specialArgs.rk3588 = {inherit (inputs) nixpkgs mesa-panfork;};
           modules = [
             {
               networking.hostName = name;
 
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
+              nixpkgs.crossSystem.config = "aarch64-unknown-linux-gnu";
             }
 
             module
