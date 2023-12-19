@@ -17,25 +17,26 @@
 #
 # The derivation for the SD image will be placed in
 # config.system.build.sdImage
-
-{ config, lib, pkgs, modulesPath, ... }:
-
-with lib;
-
-let
-  rootfsImage = pkgs.callPackage "${modulesPath}/../lib/make-ext4-fs.nix" ({
-    inherit (config.sdImage) storePaths;
-    compressImage = config.sdImage.compressImage;
-    populateImageCommands = config.sdImage.populateRootCommands;
-    volumeLabel = "NIXOS_SD";
-  } // optionalAttrs (config.sdImage.rootPartitionUUID != null) {
-    uuid = config.sdImage.rootPartitionUUID;
-  });
-in
 {
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
+with lib; let
+  rootfsImage = pkgs.callPackage "${modulesPath}/../lib/make-ext4-fs.nix" ({
+      inherit (config.sdImage) storePaths compressImage;
+      populateImageCommands = config.sdImage.populateRootCommands;
+      volumeLabel = "NIXOS_SD";
+    }
+    // optionalAttrs (config.sdImage.rootPartitionUUID != null) {
+      uuid = config.sdImage.rootPartitionUUID;
+    });
+in {
   imports = [
-    (mkRemovedOptionModule [ "sdImage" "bootPartitionID" ] "The FAT partition for SD image now only holds the Raspberry Pi firmware files. Use firmwarePartitionID to configure that partition's ID.")
-    (mkRemovedOptionModule [ "sdImage" "bootSize" ] "The boot files for SD image have been moved to the main ext4 partition. The FAT partition now only holds the Raspberry Pi firmware files. Changing its size may not be required.")
+    (mkRemovedOptionModule ["sdImage" "bootPartitionID"] "The FAT partition for SD image now only holds the Raspberry Pi firmware files. Use firmwarePartitionID to configure that partition's ID.")
+    (mkRemovedOptionModule ["sdImage" "bootSize"] "The boot files for SD image have been moved to the main ext4 partition. The FAT partition now only holds the Raspberry Pi firmware files. Changing its size may not be required.")
     "${modulesPath}/profiles/all-hardware.nix"
   ];
 
@@ -167,7 +168,7 @@ in
         # Alternatively, this could be removed from the configuration.
         # The filesystem is not needed at runtime, it could be treated
         # as an opaque blob instead of a discrete FAT32 filesystem.
-        options = [ "nofail" "noauto" ];
+        options = ["nofail" "noauto"];
       };
       "/" = {
         device = "/dev/disk/by-label/NIXOS_SD";
@@ -175,100 +176,109 @@ in
       };
     };
 
-    sdImage.storePaths = [ config.system.build.toplevel ];
+    sdImage.storePaths = [config.system.build.toplevel];
 
-    system.build.sdImage = pkgs.callPackage ({ stdenv, dosfstools, e2fsprogs,
-    mtools, libfaketime, util-linux, zstd }: stdenv.mkDerivation {
-      name = config.sdImage.imageName;
+    system.build.sdImage = pkgs.callPackage ({
+      stdenv,
+      dosfstools,
+      e2fsprogs,
+      mtools,
+      libfaketime,
+      util-linux,
+      zstd,
+    }:
+      stdenv.mkDerivation {
+        name = config.sdImage.imageName;
 
-      nativeBuildInputs = [ dosfstools e2fsprogs libfaketime mtools util-linux ]
-      ++ lib.optional config.sdImage.compressImage zstd;
+        nativeBuildInputs =
+          [dosfstools e2fsprogs libfaketime mtools util-linux]
+          ++ lib.optional config.sdImage.compressImage zstd;
 
-      inherit (config.sdImage) imageName compressImage;
+        inherit (config.sdImage) imageName compressImage;
 
-      buildCommand = ''
-        mkdir -p $out/nix-support $out/sd-image
-        export img=$out/sd-image/${config.sdImage.imageName}
+        buildCommand = ''
+          mkdir -p $out/nix-support $out/sd-image
+          export img=$out/sd-image/${config.sdImage.imageName}
 
-        echo "${pkgs.stdenv.buildPlatform.system}" > $out/nix-support/system
-        if test -n "$compressImage"; then
-          echo "file sd-image $img.zst" >> $out/nix-support/hydra-build-products
-        else
-          echo "file sd-image $img" >> $out/nix-support/hydra-build-products
-        fi
+          echo "${pkgs.stdenv.buildPlatform.system}" > $out/nix-support/system
+          if test -n "$compressImage"; then
+            echo "file sd-image $img.zst" >> $out/nix-support/hydra-build-products
+          else
+            echo "file sd-image $img" >> $out/nix-support/hydra-build-products
+          fi
 
-        root_fs=${rootfsImage}
-        ${lib.optionalString config.sdImage.compressImage ''
-        root_fs=./root-fs.img
-        echo "Decompressing rootfs image"
-        zstd -d --no-progress "${rootfsImage}" -o $root_fs
-        ''}
+          root_fs=${rootfsImage}
+          ${lib.optionalString config.sdImage.compressImage ''
+            root_fs=./root-fs.img
+            echo "Decompressing rootfs image"
+            zstd -d --no-progress "${rootfsImage}" -o $root_fs
+          ''}
 
-        # Gap in front of the first partition, in MiB
-        gap=${toString config.sdImage.firmwarePartitionOffset}
+          # Gap in front of the first partition, in MiB
+          gap=${toString config.sdImage.firmwarePartitionOffset}
 
-        # Create the image file sized to fit /boot/firmware and /, plus slack for the gap.
-        rootSizeBlocks=$(du -B 512 --apparent-size $root_fs | awk '{ print $1 }')
-        firmwareSizeBlocks=$((${toString config.sdImage.firmwareSize} * 1024 * 1024 / 512))
-        imageSize=$((rootSizeBlocks * 512 + firmwareSizeBlocks * 512 + gap * 1024 * 1024))
-        truncate -s $imageSize $img
+          # Create the image file sized to fit /boot/firmware and /, plus slack for the gap.
+          rootSizeBlocks=$(du -B 512 --apparent-size $root_fs | awk '{ print $1 }')
+          firmwareSizeBlocks=$((${toString config.sdImage.firmwareSize} * 1024 * 1024 / 512))
+          imageSize=$((rootSizeBlocks * 512 + firmwareSizeBlocks * 512 + gap * 1024 * 1024))
+          truncate -s $imageSize $img
 
-        # Have to use GPT for the disk table, otherwise licheepi's u-boot will report:
-        #    ** Unrecognized filesystem type **
-        # 
-        # The "bootable" partition is where u-boot will look file for the bootloader
-        # information (dtbs, extlinux.conf file).
-        #
-        # Lichee Pi 4A will boot from its builtin spl flash first, so we don't need to
-        # set the bootable flag on the first partition.
-        sfdisk $img <<EOF
-            label: gpt
-            label-id: ${config.sdImage.firmwarePartitionID}
-            unit: sectors
-            sector-size: 512
+          # Have to use GPT for the disk table, otherwise licheepi's u-boot will report:
+          #    ** Unrecognized filesystem type **
+          #
+          # The "bootable" partition is where u-boot will look file for the bootloader
+          # information (dtbs, extlinux.conf file).
+          #
+          # Lichee Pi 4A will boot from its builtin spl flash first, so we don't need to
+          # set the bootable flag on the first partition.
+          sfdisk $img <<EOF
+              label: gpt
+              label-id: ${config.sdImage.firmwarePartitionID}
+              unit: sectors
+              sector-size: 512
 
-            start=''${gap}M, size=$firmwareSizeBlocks, type=EBD0A0A2-B9E5-4433-87C0-68B6B72699C7
-            start=$((gap + ${toString config.sdImage.firmwareSize}))M, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, bootable
-        EOF
+              start=''${gap}M, size=$firmwareSizeBlocks, type=EBD0A0A2-B9E5-4433-87C0-68B6B72699C7
+              start=$((gap + ${toString config.sdImage.firmwareSize}))M, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, bootable
+          EOF
 
-        # Copy the rootfs into the SD image
-        fsck.ext4 -vn $root_fs
-        eval $(partx $img -o START,SECTORS --nr 2 --pairs)
-        dd conv=notrunc if=$root_fs of=$img seek=$START count=$SECTORS
+          # Copy the rootfs into the SD image
+          fsck.ext4 -vn $root_fs
+          eval $(partx $img -o START,SECTORS --nr 2 --pairs)
+          dd conv=notrunc if=$root_fs of=$img seek=$START count=$SECTORS
 
-        # Create a FAT32 /boot/firmware partition of suitable size into firmware_part.img
-        eval $(partx $img -o START,SECTORS --nr 1 --pairs)
-        truncate -s $((SECTORS * 512)) firmware_part.img
+          # Create a FAT32 /boot/firmware partition of suitable size into firmware_part.img
+          eval $(partx $img -o START,SECTORS --nr 1 --pairs)
+          truncate -s $((SECTORS * 512)) firmware_part.img
 
-        mkfs.vfat -i ${config.sdImage.firmwarePartitionID} -n ${config.sdImage.firmwarePartitionName} firmware_part.img
+          mkfs.vfat -i ${config.sdImage.firmwarePartitionID} -n ${config.sdImage.firmwarePartitionName} firmware_part.img
 
-        # Populate the files intended for /boot/firmware
-        mkdir firmware
-        ${config.sdImage.populateFirmwareCommands}
+          # Populate the files intended for /boot/firmware
+          mkdir firmware
+          ${config.sdImage.populateFirmwareCommands}
 
-        find firmware -exec touch --date=2000-01-01 {} +
-        # Copy the populated /boot/firmware into the SD image
-        cd firmware
-        # Force a fixed order in mcopy for better determinism, and avoid file globbing
-        for d in $(find . -type d -mindepth 1 | sort); do
-          faketime "2000-01-01 00:00:00" mmd -i ../firmware_part.img "::/$d"
-        done
-        for f in $(find . -type f | sort); do
-          mcopy -pvm -i ../firmware_part.img "$f" "::/$f"
-        done
-        cd ..
+          find firmware -exec touch --date=2000-01-01 {} +
+          # Copy the populated /boot/firmware into the SD image
+          cd firmware
+          # Force a fixed order in mcopy for better determinism, and avoid file globbing
+          for d in $(find . -type d -mindepth 1 | sort); do
+            faketime "2000-01-01 00:00:00" mmd -i ../firmware_part.img "::/$d"
+          done
+          for f in $(find . -type f | sort); do
+            mcopy -pvm -i ../firmware_part.img "$f" "::/$f"
+          done
+          cd ..
 
-        # Verify the FAT partition before copying it.
-        fsck.vfat -vn firmware_part.img
-        dd conv=notrunc if=firmware_part.img of=$img seek=$START count=$SECTORS
+          # Verify the FAT partition before copying it.
+          fsck.vfat -vn firmware_part.img
+          dd conv=notrunc if=firmware_part.img of=$img seek=$START count=$SECTORS
 
-        ${config.sdImage.postBuildCommands}
+          ${config.sdImage.postBuildCommands}
 
-        if test -n "$compressImage"; then
-            zstd -T$NIX_BUILD_CORES --rm $img
-        fi
-      '';
-    }) {};
+          if test -n "$compressImage"; then
+              zstd -T$NIX_BUILD_CORES --rm $img
+          fi
+        '';
+      }) {};
 
     boot.postBootCommands = lib.mkIf config.sdImage.expandOnBoot ''
       # On the first boot do some maintenance tasks

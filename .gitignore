@@ -1,5 +1,7 @@
 /nixpkgs
 /nixpkgs-cached
+/.pre-commit-config.yaml
+/.direnv
 
 result
 result/
