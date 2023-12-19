@@ -25,66 +25,34 @@
       ];
     };
   in {
-    nixosConfigurations = {
+    nixosModules = {
       # Orange Pi 5 SBC
-      orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5";
-
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
-
-            ./modules/boards/orangepi5.nix
-            ./modules/user-group.nix
-          ];
-      };
-
+      orangepi5 = import ./modules/boards/orangepi5.nix;
       # Orange Pi 5 Plus SBC
       # TODO not complete yet
-      orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5plus";
-
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
-
-            ./modules/boards/orangepi5plus.nix
-            ./modules/user-group.nix
-          ];
-      };
-
+      orangepi5plus = import ./modules/boards/orangepi5plus.nix;
       # Rock 5 Model A SBC
       # TODO not complete yet
-      rock5a = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
+      rock5a = import ./modules/boards/rock5a.nix;
+    };
+
+    nixosConfigurations = builtins.mapAttrs (name: module: nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "rock5a";
+        modules = [
+          {
+            networking.hostName = name;
 
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
+            nixpkgs.crossSystem = {
+              config = "aarch64-unknown-linux-gnu";
+            };
+          }
 
-            ./modules/boards/rock5a.nix
-            ./modules/user-group.nix
-          ];
-      };
-    };
+          module
+          ./modules/user-group.nix
+        ];
+      })
+      self.nixosModules;
 
     packages.x86_64-linux = {
       # sdImage
@@ -96,7 +64,7 @@
       # use `nix develop` to enter the environment with the custom kernel build environment available.
       # and then use `unpackPhase` to unpack the kernel source code and cd into it.
       # then you can use `make menuconfig` to configure the kernel.
-      # 
+      #
       # problem
       #   - using `make menuconfig` - Unable to find the ncurses package.
       # Solution

@@ -2,13 +2,11 @@
   description = "NixOS configuration for rk3588 remote deployment";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05-small";
-    nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";
+    nixos-rk3588.url = "path:..";
   };
 
   outputs = {
     self,
-    nixpkgs,
     nixos-rk3588,
     ...
   }: let
@@ -42,7 +40,7 @@
           }
 
           # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
-          (nixos-rk3588 + "/modules/boards/orangepi5.nix")
+          nixos-rk3588.nixosModules.orangepi5
 
           # your custom configuration
           ./configuration.nix
