@@ -23,17 +23,14 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1692208784,
-        "narHash": "sha256-3AetKtb1oz1vJ7ZTy78v642Bwz/NxPahNCVN9eqO8rU=",
-        "owner": "ryan4yin",
-        "repo": "nixos-rk3588",
-        "rev": "db96e4436b369a3b7e52e285347bed2bec6337b6",
-        "type": "github"
+        "lastModified": 0,
+        "narHash": "sha256-KNZcEhmvdDEajXeFZUuvhml2eMb65U3T5hdiv3Qet74=",
+        "path": "..",
+        "type": "path"
       },
       "original": {
-        "owner": "ryan4yin",
-        "repo": "nixos-rk3588",
-        "type": "github"
+        "path": "..",
+        "type": "path"
       }
     },
     "nixpkgs": {
@@ -54,18 +51,15 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1692192038,
-        "narHash": "sha256-fXUZ7GF2VPoLGP0DmTbdUxCRRFVZWn09XvopOqDOAFg=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "b0c9d793fcab2f749ab3d543ba42facf90bb1bd9",
-        "type": "github"
+        "lastModified": 1702830618,
+        "narHash": "sha256-lvhwIvRwhOLgzbRuYkqHy4M5cQHYs4ktL6/hyuBS6II=",
+        "path": "/nix/store/fn4i255gjsbqhza45ih8mgxgx47zan8i-source",
+        "rev": "91a00709aebb3602f172a0bf47ba1ef013e34835",
+        "type": "path"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-23.05-small",
-        "repo": "nixpkgs",
-        "type": "github"
+        "id": "nixpkgs",
+        "type": "indirect"
       }
     },
     "root": {

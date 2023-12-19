@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05-small";
+    flake-utils.url = "github:numtide/flake-utils";
 
     # GPU drivers
     mesa-panfork = {
@@ -11,82 +12,52 @@
     };
   };
 
-  outputs = inputs@{self, nixpkgs, ...}: let
-    pkgsKernel = import nixpkgs {
-      system = "x86_64-linux";
-      crossSystem = {
-        config = "aarch64-unknown-linux-gnu";
-      };
-
-      overlays = [
-        (self: super: {
-          linuxPackages_rockchip = super.linuxPackagesFor (super.callPackage ./pkgs/kernel/legacy.nix {});
-        })
-      ];
-    };
-  in {
-    nixosConfigurations = {
+  outputs = inputs@{self, nixpkgs, flake-utils, ...}:
+  {
+    nixosModules = {
       # Orange Pi 5 SBC
-      orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5";
-
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
-
-            ./modules/boards/orangepi5.nix
-            ./modules/user-group.nix
-          ];
-      };
-
+      orangepi5 = import ./modules/boards/orangepi5.nix;
       # Orange Pi 5 Plus SBC
       # TODO not complete yet
-      orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5plus";
-
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
-
-            ./modules/boards/orangepi5plus.nix
-            ./modules/user-group.nix
-          ];
-      };
-
+      orangepi5plus = import ./modules/boards/orangepi5plus.nix;
       # Rock 5 Model A SBC
       # TODO not complete yet
-      rock5a = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "rock5a";
-
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
-
-            ./modules/boards/rock5a.nix
-            ./modules/user-group.nix
-          ];
-      };
+      rock5a = import ./modules/boards/rock5a.nix;
     };
 
-    packages.x86_64-linux = {
+    nixosConfigurations = builtins.mapAttrs (name: module: nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
+          {
+            networking.hostName = name;
+
+            nixpkgs.crossSystem = {
+              config = "aarch64-unknown-linux-gnu";
+            };
+          }
+
+          module
+          ./modules/user-group.nix
+        ];
+      })
+      self.nixosModules;
+    } // flake-utils.lib.eachDefaultSystem (system:
+    let
+      pkgsKernel = import nixpkgs {
+        inherit system;
+
+        crossSystem.config = "aarch64-unknown-linux-gnu";
+
+        overlays = [
+          (self: super: {
+            linuxPackages_rockchip = super.linuxPackagesFor (super.callPackage ./pkgs/kernel/legacy.nix {});
+          })
+        ];
+      };
+    in
+  {
+    packages = {
       # sdImage
       sdImage-opi5 = self.nixosConfigurations.orangepi5.config.system.build.sdImage;
       sdImage-opi5plus = self.nixosConfigurations.orangepi5plus.config.system.build.sdImage;
@@ -96,7 +67,7 @@
       # use `nix develop` to enter the environment with the custom kernel build environment available.
       # and then use `unpackPhase` to unpack the kernel source code and cd into it.
       # then you can use `make menuconfig` to configure the kernel.
-      # 
+      #
       # problem
       #   - using `make menuconfig` - Unable to find the ncurses package.
       # Solution
@@ -107,11 +78,10 @@
 
     # use `nix develop .#fhsEnv` to enter the fhs test environment defined here.
     # for kernel debugging
-    devShells.x86_64-linux.fhsEnv = let
-      pkgs = import nixpkgs {
-        system = "x86_64-linux";
-      };
-    in
+    devShells.fhsEnv =
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
       # the code here is mainly copied from:
       #   https://nixos.wiki/wiki/Linux_kernel#Embedded_Linux_Cross-compile_xconfig_and_menuconfig
       (pkgs.buildFHSUserEnv {
@@ -139,5 +109,5 @@
           exec bash
         '';
       }).env;
-  };
+  });
 }
