@@ -2,14 +2,8 @@
   description = "A minimal NixOS configuration for the RK3588/RK3588S based SBCs";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05-small";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     flake-utils.url = "github:numtide/flake-utils";
-
-    # GPU drivers
-    mesa-panfork = {
-      url = "gitlab:panfork/mesa/csf";
-      flake = false;
-    };
 
     # For CI checks
     pre-commit-hooks = {

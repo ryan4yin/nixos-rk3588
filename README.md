@@ -28,7 +28,7 @@ Default user: `rk`, default password: `rk3588`
   - audio
   - [x] gpio
   - [x] uart/ttl
-  - gpu(mali-g610-firmware + [panfrok/mesa](https://gitlab.com/panfork/mesa))
+  - gpu(mali-g610-firmware + [panfork/mesa](https://gitlab.com/panfork/mesa))
   - npu
   - ...
 

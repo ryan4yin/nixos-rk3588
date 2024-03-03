@@ -1,11 +1,8 @@
 {
   lib,
   pkgs,
-  rk3588,
   ...
-}: let
-  inherit (rk3588) mesa-panfork;
-in {
+}: {
   # =========================================================================
   #      Base NixOS Configuration
   # =========================================================================
@@ -43,7 +40,12 @@ in {
         .overrideAttrs (_: {
           pname = "mesa-panfork";
           version = "23.0.0-panfork";
-          src = mesa-panfork;
+          src = pkgs.fetchFromGitLab {
+            owner = "panfork";
+            repo = "mesa";
+            rev = "120202c675749c5ef81ae4c8cdc30019b4de08f4"; # branch: csf
+            hash = "sha256-4eZHMiYS+sRDHNBtLZTA8ELZnLns7yT3USU5YQswxQ0=";
+          };
         })
       )
       .drivers;
