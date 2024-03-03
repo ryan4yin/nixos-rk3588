@@ -34,23 +34,19 @@ in {
   hardware = {
     # driver & firmware for Mali-G610 GPU
     # it works on all rk2588/rk3588s based SBCs.
-    opengl = {
-      enable = lib.mkDefault true;
-      package =
-        lib.mkForce
-        (
-          (pkgs.mesa.override {
-            galliumDrivers = ["panfrost" "swrast"];
-            vulkanDrivers = ["swrast"];
-          })
-          .overrideAttrs (_: {
-            pname = "mesa-panfork";
-            version = "23.0.0-panfork";
-            src = mesa-panfork;
-          })
-        )
-        .drivers;
-    };
+    opengl.package =
+      (
+        (pkgs.mesa.override {
+          galliumDrivers = ["panfrost" "swrast"];
+          vulkanDrivers = ["swrast"];
+        })
+        .overrideAttrs (_: {
+          pname = "mesa-panfork";
+          version = "23.0.0-panfork";
+          src = mesa-panfork;
+        })
+      )
+      .drivers;
 
     enableRedistributableFirmware = lib.mkForce true;
     firmware = [
