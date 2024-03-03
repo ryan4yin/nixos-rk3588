@@ -13,7 +13,7 @@
   boardName = "rock5a";
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
   # rkbin-rk3588 = pkgs.callPackage ../../pkgs/rkbin-rk3588 {};
-  uboot = pkgs.callPackage ../../pkgs/u-boot/radxa-prebuilt.nix {};
+  uboot = pkgs.callPackage ../../pkgs/u-boot-radxa/prebuilt.nix {};
 in {
   imports = [
     ./base.nix
