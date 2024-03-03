@@ -18,7 +18,7 @@ in {
     inherit hashedPassword;
     isNormalUser = true;
     home = "/home/${username}";
-    extraGroups = ["users" "networkmanager" "wheel" "video" "docker"];
+    extraGroups = ["users" "wheel" "docker"];
     openssh.authorizedKeys.keys = [
       publickey
     ];
