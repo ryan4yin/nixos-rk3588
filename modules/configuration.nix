@@ -4,7 +4,7 @@
   ...
 }: let
   username = "rk";
-  # To generate a hashed password run `mkpasswd`.
+  # To generate a hashed password run `mkpasswd -m scrypt`.
   # this is the hash of the password "rk3588"
   hashedPassword = "$y$j9T$V7M5HzQFBIdfNzVltUxFj/$THE5w.7V7rocWFm06Oh8eFkAKkUFb5u6HVZvXyjekK6";
 in {
@@ -47,12 +47,7 @@ in {
     inherit hashedPassword;
     isNormalUser = true;
     home = "/home/${username}";
-    extraGroups = ["users" "wheel" "docker"];
-  };
-
-  users.groups = {
-    "${username}" = {};
-    docker = {};
+    extraGroups = ["users" "wheel"];
   };
 
   system.stateVersion = "23.11";

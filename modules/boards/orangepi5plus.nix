@@ -1,30 +1,19 @@
 # =========================================================================
 #      Orange Pi 5 Plus Specific Configuration
 # =========================================================================
-{
-  config,
-  pkgs,
-  rk3588,
-  ...
-}: let
-  inherit (rk3588) nixpkgs;
-
-  boardName = "orangepi5plus";
-  rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
+{rk3588, ...}: let
+  pkgsKernel = rk3588.pkgsKernel;
 in {
   imports = [
     ./base.nix
-    "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../pkgs/kernel/legacy.nix {});
+    kernelPackages = pkgsKernel.linuxPackagesFor (pkgsKernel.callPackage ../../pkgs/kernel/legacy.nix {});
 
     # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [
-      "root=UUID=${rootPartitionUUID}"
       "rootwait"
-      "rootfstype=ext4"
 
       "earlycon" # enable early console, so we can see the boot messages via serial port / HDMI
       "consoleblank=0" # disable console blanking(screen saver)
@@ -50,28 +39,6 @@ in {
       ];
     };
 
-    firmware = [
-    ];
-  };
-
-  sdImage = {
-    inherit rootPartitionUUID;
-
-    imageBaseName = "${boardName}-sd-image";
-    compressImage = true;
-
-    # install firmware into a separate partition: /boot/firmware
-    populateFirmwareCommands = ''
-      ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./firmware
-    '';
-    # Gap in front of the /boot/firmware partition, in mebibytes (1024×1024 bytes).
-    # Can be increased to make more space for boards requiring to dd u-boot SPL before actual partitions.
-    firmwarePartitionOffset = 32;
-    firmwarePartitionName = "BOOT";
-    firmwareSize = 200; # MiB
-
-    populateRootCommands = ''
-      mkdir -p ./files/boot
-    '';
+    firmware = [];
   };
 }

@@ -1,7 +1,7 @@
 let
   username = "rk";
   hostName = "orangepi5";
-  # To generate a hashed password run `mkpasswd`.
+  # To generate a hashed password run `mkpasswd -m scrypt`.
   # this is the hash of the password "rk3588"
   hashedPassword = "$y$j9T$V7M5HzQFBIdfNzVltUxFj/$THE5w.7V7rocWFm06Oh8eFkAKkUFb5u6HVZvXyjekK6";
   # TODO replace this with your own public key!
