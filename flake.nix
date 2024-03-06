@@ -57,13 +57,11 @@
           sd-image = ./modules/sd-image/orangepi5.nix;
         };
         # Orange Pi 5 Plus SBC
-        # TODO not complete yet
         orangepi5plus = {
           core = import ./modules/boards/orangepi5plus.nix;
           sd-image = ./modules/sd-image/orangepi5plus.nix;
         };
         # Rock 5 Model A SBC
-        # TODO not complete yet
         rock5a = {
           core = import ./modules/boards/rock5a.nix;
           sd-image = ./modules/sd-image/rock5a.nix;
