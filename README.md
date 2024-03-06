@@ -29,7 +29,7 @@ U-Boot support:
 
 ## TODO
 
-- [ ] UEFI support for Rock 5A
+- [ ] UEFI support for Rock 5A, Rock 5B, Orange Pi 5B, NanoPI R6C, NanoPi R6S.
 - [ ] verify all the hardware features available by RK3588/RK3588s
   - [x] ethernet (rj45)
   - [ ] m.2 interface(pcie & sata)
