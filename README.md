@@ -29,8 +29,10 @@ U-Boot support:
 
 ## TODO
 
+- [ ] UEFI support for Rock 5A
 - [ ] verify all the hardware features available by RK3588/RK3588s
   - [x] ethernet (rj45)
+  - [ ] m.2 interface(pcie & sata)
   - [ ] wifi/bluetooth
   - [ ] audio
   - [x] gpio
