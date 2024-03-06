@@ -2,7 +2,11 @@
   description = "NixOS configuration for rk3588 remote deployment";
 
   inputs = {
+    # For testing purpose, use the local flake
     nixos-rk3588.url = "path:..";
+
+    # For production, use the remote flake
+    # nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";
   };
 
   outputs = {nixos-rk3588, ...}: let

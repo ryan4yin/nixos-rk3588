@@ -49,23 +49,9 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1702830618,
-        "narHash": "sha256-lvhwIvRwhOLgzbRuYkqHy4M5cQHYs4ktL6/hyuBS6II=",
-        "path": "/nix/store/fn4i255gjsbqhza45ih8mgxgx47zan8i-source",
-        "rev": "91a00709aebb3602f172a0bf47ba1ef013e34835",
-        "type": "path"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
-      }
-    },
     "root": {
       "inputs": {
-        "nixos-rk3588": "nixos-rk3588",
-        "nixpkgs": "nixpkgs_2"
+        "nixos-rk3588": "nixos-rk3588"
       }
     }
   },
