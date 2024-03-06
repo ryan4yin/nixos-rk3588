@@ -29,9 +29,6 @@ U-Boot support:
 
 ## TODO
 
-- [ ] support [edk2-rk3588](https://github.com/edk2-porting/edk2-rk3588), which is an UEFI firmware for Rockchip RK3588 platforms
-- [ ] build u-boot with nix
-- [x] support boot from emmc/ssd
 - [ ] verify all the hardware features available by RK3588/RK3588s
   - [x] ethernet (rj45)
   - [ ] wifi/bluetooth
