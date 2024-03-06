@@ -7,8 +7,9 @@
   #      Base NixOS Configuration
   # =========================================================================
 
+  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+
   boot = {
-    # Some filesystems (e.g. zfs) have some trouble with cross (or with BSP kernels?) here.
     supportedFilesystems = lib.mkForce [
       "vfat"
       "fat32"
@@ -17,16 +18,9 @@
       "btrfs"
     ];
 
-    loader = {
-      grub.enable = lib.mkForce false;
-      generic-extlinux-compatible.enable = lib.mkForce true;
-    };
-
     initrd.includeDefaultModules = lib.mkForce false;
-    initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys"];
+    initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys" "uas"];
   };
-
-  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 
   hardware = {
     # driver & firmware for Mali-G610 GPU
