@@ -109,6 +109,9 @@ After the flash is complete, remove the SD card and reboot, you should see the U
 It's also possible to install NixOS via `nixos-install`, this will give you a more flexible way to manage your system.
 For example, you can use `nixos-install` to install NixOS with LUKS encryption, custom partition layout & filesystem, and with all your favorite packages pre-installed, etc.
 
-To do this, you need to flash the image into the SD card and start into NixOS first, and then just follow the [official installation guide](https://nixos.org/manual/nixos/stable/#sec-installation-manual).
+To do this, you need to complete the work described earlier and get a NixOS system that boot from UEFI,
+and then just follow the [official installation guide](https://nixos.org/manual/nixos/stable/#sec-installation-manual).
+
+> NOTE: I tried to boot from NixOS's official aarch64 iso image, I can see the grub boot menu, but it failed to boot into the live system, so I recommend to use the raw efi image we built here to boot into NixOS.
 
 [edk2-rk3588]: https://github.com/edk2-porting/edk2-rk3588
