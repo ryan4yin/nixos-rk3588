@@ -21,7 +21,6 @@ The steps to do this:
 1. In the UEFI boot menu
     1. Enter [Device Manager] => [Rockchip Platform Configuration] => [ACPI / Device Tree]
         1. Change [Config Table Mode] to `Both`.
-        1. Change [Device Tree Configuration] => [Support DTB override & overlays] to `Enabled`.
 
 
 ## 2. Flash NixOS to SD card
