@@ -9,6 +9,7 @@ result-*
 
 *~
 *.swp
+.DS_Store
 
 # Personal scripts
 nix-build/
