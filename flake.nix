@@ -32,21 +32,15 @@
   }: let
     # Local system's architecture, the host you are running this flake on.
     localSystem = "x86_64-linux";
+    pkgsLocal = import nixpkgs {system = localSystem;};
     # The native system of the target SBC.
     aarch64System = "aarch64-linux";
-    pkgsLocal = import nixpkgs {system = localSystem;};
+    pkgsNative = import nixpkgs {system = aarch64System;};
+
+    # Cross-compilation toolchain for building on the local system.
     pkgsCross = import nixpkgs {
       inherit localSystem;
       crossSystem = aarch64System;
-    };
-
-    specialArgs = {
-      rk3588 = {
-        inherit nixpkgs;
-        # Compile the kernel using a cross-compilation tool chain
-        # Which is faster than emulating the target system.
-        pkgsKernel = pkgsCross;
-      };
     };
   in
     {
@@ -69,15 +63,14 @@
       };
 
       nixosConfigurations =
-        # sdImage - boot via U-Boot
+        # sdImage - boot via U-Boot - fully native
         (builtins.mapAttrs (name: board:
           nixpkgs.lib.nixosSystem {
-            # Use emulated target system here.
-            # NOTE: we use pkgsCross for the kernel build only,
-            # and emulated the target system for everything else,
-            # so that we can use nixos's official binary cache for the rest of the packages.
-            system = aarch64System;
-            inherit specialArgs;
+            system = aarch64System; # native or qemu-emulated
+            specialArgs.rk3588 = {
+              inherit nixpkgs;
+              pkgsKernel = pkgsNative;
+            };
             modules = [
               ./modules/configuration.nix
               board.core
@@ -90,15 +83,43 @@
             ];
           })
         self.nixosModules)
-        # UEFI system, boot via edk2-rk3588
+        # sdImage - boot via U-Boot - fully cross-compiled
+        // (nixpkgs.lib.mapAttrs'
+          (name: board:
+            nixpkgs.lib.nameValuePair
+            (name + "-cross")
+            (nixpkgs.lib.nixosSystem {
+              system = localSystem; # x64
+              specialArgs.rk3588 = {
+                inherit nixpkgs;
+                pkgsKernel = pkgsCross;
+              };
+              modules = [
+                ./modules/configuration.nix
+                board.core
+                board.sd-image
+
+                {
+                  networking.hostName = name;
+                  sdImage.imageBaseName = "${name}-sd-image";
+
+                  # Use the cross-compilation toolchain to build the whole system.
+                  nixpkgs.crossSystem.config = "aarch64-unknown-linux-gnu";
+                }
+              ];
+            }))
+          self.nixosModules)
+        # UEFI system, boot via edk2-rk3588 - fully native
         // (nixpkgs.lib.mapAttrs'
           (name: board:
             nixpkgs.lib.nameValuePair
             (name + "-uefi")
             (nixpkgs.lib.nixosSystem {
-              # Use emulated target system here.
-              system = aarch64System;
-              inherit specialArgs;
+              system = aarch64System; # native or qemu-emulated
+              specialArgs.rk3588 = {
+                inherit nixpkgs;
+                pkgsKernel = pkgsNative;
+              };
               modules = [
                 board.core
                 ./modules/configuration.nix
@@ -112,8 +133,7 @@
           self.nixosModules);
     }
     // flake-utils.lib.eachDefaultSystem (system: let
-      kernelPackages = pkgsCross.linuxPackagesFor (pkgsCross.callPackage ../../pkgs/kernel/legacy.nix {});
-      pkgs = pkgsLocal;
+      pkgs = import nixpkgs {inherit system;};
     in {
       packages = {
         # sdImage
@@ -121,23 +141,27 @@
         sdImage-opi5plus = self.nixosConfigurations.orangepi5plus.config.system.build.sdImage;
         sdImage-rock5a = self.nixosConfigurations.rock5a.config.system.build.sdImage;
 
+        sdImage-opi5-cross = self.nixosConfigurations.orangepi5-cross.config.system.build.sdImage;
+        sdImage-opi5plus-cross = self.nixosConfigurations.orangepi5plus-cross.config.system.build.sdImage;
+        sdImage-rock5a-cross = self.nixosConfigurations.rock5a-cross.config.system.build.sdImage;
+
         # UEFI raw image
         rawEfiImage-opi5 = self.nixosConfigurations.orangepi5-uefi.config.formats.raw-efi;
         rawEfiImage-opi5plus = self.nixosConfigurations.orangepi5plus-uefi.config.formats.raw-efi;
         rawEfiImage-rock5a = self.nixosConfigurations.rock5a-uefi.config.formats.raw-efi;
-
-        # the custom kernel for debugging
-        # use `nix develop` to enter the environment with the custom kernel build environment available.
-        # and then use `unpackPhase` to unpack the kernel source code and cd into it.
-        # then you can use `make menuconfig` to configure the kernel.
-        #
-        # problem
-        #   - using `make menuconfig` - Unable to find the ncurses package.
-        # Solution
-        #   - unpackPhase, and the use `nix develop .#fhsEnv` to enter the fhs test environment.
-        #   - Then use `make menuconfig` to configure the kernel.
-        kernel = kernelPackages.kernel.dev;
       };
+
+      # the custom kernel for debugging
+      # use `nix develop .#.kernel` to enter the environment with the custom kernel build environment available.
+      # and then use `unpackPhase` to unpack the kernel source code and cd into it.
+      # then you can use `make menuconfig` to configure the kernel.
+      #
+      # problem
+      #   - using `make menuconfig` - Unable to find the ncurses package.
+      # Solution
+      #   - unpackPhase, and the use `nix develop .#fhsEnv` to enter the fhs test environment.
+      #   - Then use `make menuconfig` to configure the kernel.
+      # devShells.kernel = (pkgsCross.linuxPackagesFor (pkgsCross.callPackage ./pkgs/kernel/legacy.nix {})).kernel.dev;
 
       # use `nix develop .#fhsEnv` to enter the fhs test environment defined here.
       # for kernel debugging

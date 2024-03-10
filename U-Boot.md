@@ -27,14 +27,28 @@ Build an sdImage by `nix build`, and then flash it to a SD card using `dd`(pleas
 
 > **Instead of build from source, you can also download the prebuilt image from [Releases](https://github.com/ryan4yin/nixos-rk3588/releases)**.
 
-```shell
-# for orange pi 5 plus
+> To understand how this flakes works, please read [Cross-platform Compilation](https://nixos-and-flakes.thiscute.world/development/cross-platform-compilation).
+
+```bash
+# ==================================
+# For Orange PI 5 Plus
+# ==================================
+# 1. Build using the qemu-emulated aarch64 environment
+# In this way, we can take advantage of the official build cache on NixOS to greatly speed up the build
 nix build .#sdImage-opi5plus
+# 2. Build using the cross-compilation environment
+# NOTE: This will take a long time to build, as the official build cache is not available for the cross-compilation environment,
+# you have to build everything from scratch.
+nix build .#sdImage-opi5plus-cross
+
 zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX
 
-# for orange pi 5
+# ==================================
+# For Orange PI 5 
+# ==================================
 nix build .#sdImage-opi5
-zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX
+# nix build .#sdImage-opi5-cross  # fully cross-compiled
+stdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX
 ```
 
 For Rock 5A, it requires a little more work to flash the image to the sd card:
