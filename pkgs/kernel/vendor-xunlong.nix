@@ -37,7 +37,7 @@
   #                          # input / to search, Ctrl+Backspace to delete.
   #
   # Manual configuration:
-  #   make[4]: *** [scripts/Makefile.build:516: drivers/net/wireless/rockchip_wlan/rtl8852be] Error 2
+  #    - CONFIG_CRYPTO_USER_API_HASH is not enabled! (maybe needed by dm_crypt(LUKS))
   configfile = ./rk35xx_xunlong_config;
   allowImportFromDerivation = true;
 })
