@@ -8,7 +8,7 @@ Related Armbian projects:
 - <https://github.com/armbian/linux-rockchip>
 
 
-test command:
+Test command:
 
 ```bash
 ./compile.sh build BOARD=orangepi5 BRANCH=legacy BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=yes RELEASE=jammy

@@ -151,20 +151,11 @@
         rawEfiImage-rock5a = self.nixosConfigurations.rock5a-uefi.config.formats.raw-efi;
       };
 
-      # the custom kernel for debugging
-      # use `nix develop .#.kernel` to enter the environment with the custom kernel build environment available.
-      # and then use `unpackPhase` to unpack the kernel source code and cd into it.
-      # then you can use `make menuconfig` to configure the kernel.
-      #
-      # problem
-      #   - using `make menuconfig` - Unable to find the ncurses package.
-      # Solution
-      #   - unpackPhase, and the use `nix develop .#fhsEnv` to enter the fhs test environment.
-      #   - Then use `make menuconfig` to configure the kernel.
-      # devShells.kernel = (pkgsCross.linuxPackagesFor (pkgsCross.callPackage ./pkgs/kernel/legacy.nix {})).kernel.dev;
-
-      # use `nix develop .#fhsEnv` to enter the fhs test environment defined here.
-      # for kernel debugging
+      # Usage:
+      #  1. git clone --depth 1 git@github.com:armbian/linux-rockchip.git -b rk-6.1-rkr1
+      #  2. `nix develop .#fhsEnv` to enter the fhs test environment defined here.
+      #  3. Then use `make menuconfig` to configure the kernel.
+      # 
       devShells.fhsEnv =
         # the code here is mainly copied from:
         #   https://nixos.wiki/wiki/Linux_kernel#Embedded_Linux_Cross-compile_xconfig_and_menuconfig
@@ -173,14 +164,10 @@
           targetPkgs = pkgs_: (with pkgs_;
             [
               # we need theses packages to make `make menuconfig` work.
-              pkgconfig
+              pkg-config
               ncurses
-
-              # custom kernel
-              pkgsKernel.linuxPackages_rockchip.kernel
-
               # arm64 cross-compilation toolchain
-              pkgsKernel.gccStdenv.cc
+              pkgsCross.gccStdenv.cc
               # native gcc
               gcc
             ]
