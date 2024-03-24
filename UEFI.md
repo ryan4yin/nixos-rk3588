@@ -32,11 +32,14 @@ First, build the raw efi image:
 > It will takes a long time(about 12mins) to finish, as we have to use the emulated system on x64 host to build the raw efi image.
 
 ```bash
-# for orange pi 5
-nix build .#rawEfiImage-opi5 --show-trace -L --verbose
-
+# 1. Build using the qemu-emulated aarch64 environment or on Orange Pi 5 Plus itself.
+# In this way, we can take advantage of the official build cache on NixOS to greatly speed up the build
+# it takes about 40 minutes to build the image(mainly the kernel) on my Orange Pi 5 Plus.
 # for orange pi 5 plus
 nix build .#rawEfiImage-opi5plus --show-trace -L --verbose
+
+# for orange pi 5
+nix build .#rawEfiImage-opi5 --show-trace -L --verbose
 
 # for rock 5a
 nix build .#rawEfiImage-rock5a --show-trace -L --verbose

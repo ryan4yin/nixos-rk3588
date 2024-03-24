@@ -33,8 +33,9 @@ Build an sdImage by `nix build`, and then flash it to a SD card using `dd`(pleas
 # ==================================
 # For Orange PI 5 Plus
 # ==================================
-# 1. Build using the qemu-emulated aarch64 environment
+# 1. Build using the qemu-emulated aarch64 environment or on Orange Pi 5 Plus itself.
 # In this way, we can take advantage of the official build cache on NixOS to greatly speed up the build
+# it takes about 40 minutes to build the image(mainly the kernel) on my Orange Pi 5 Plus.
 nix build .#sdImage-opi5plus
 # 2. Build using the cross-compilation environment
 # NOTE: This will take a long time to build, as the official build cache is not available for the cross-compilation environment,
