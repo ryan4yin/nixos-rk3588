@@ -1,7 +1,11 @@
 # =========================================================================
 #      Orange Pi 5 Specific Configuration
 # =========================================================================
-{rk3588, ...}: let
+{
+  pkgs,
+  rk3588,
+  ...
+}: let
   pkgsKernel = rk3588.pkgsKernel;
 in {
   imports = [
@@ -37,6 +41,8 @@ in {
       overlays = [];
     };
 
-    firmware = [];
+    firmware = [
+      (pkgs.callPackage ../../pkgs/orangepi-firmware {})
+    ];
   };
 }

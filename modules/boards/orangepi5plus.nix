@@ -1,7 +1,11 @@
 # =========================================================================
 #      Orange Pi 5 Plus Specific Configuration
 # =========================================================================
-{rk3588, ...}: let
+{
+  pkgs,
+  rk3588,
+  ...
+}: let
   pkgsKernel = rk3588.pkgsKernel;
 in {
   imports = [
@@ -39,6 +43,8 @@ in {
       ];
     };
 
-    firmware = [];
+    firmware = [
+      (pkgs.callPackage ../../pkgs/orangepi-firmware {})
+    ];
   };
 }
