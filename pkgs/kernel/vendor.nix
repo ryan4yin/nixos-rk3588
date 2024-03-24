@@ -26,19 +26,17 @@
     hash = "sha256-tVu/3SF/+s+Z6ytKvuY+ZwqsXUlm40yOZ/O5kfNfUYc=";
   };
 
-  # Path to the generated kernel config file
-  #
-  # To generate the config file, download the defconfig file from the above link to arch/arm64/configs/rk3588_xxx.config,
-  # then run the following commands:
-  #    make rk3588_xxx.config
-  # and then copy the generated file(`.config`) to ./xxx_config in this directory.
-  #
-  #   make menuconfig        # view and modify the generated config file(.config) via Terminal UI
-  #                          # input / to search, Ctrl+Backspace to delete.
-  #
-  # Manual configuration:
-  #    - CONFIG_CRYPTO_USER_API_HASH is not enabled! (maybe needed by dm_crypt(LUKS))
-  configfile = ./rk35xx_xunlong_config;
+
+
+  # Steps to the generated kernel config file
+  #  1. git clone --depth 1 https://github.com/armbian/linux-rockchip.git -b rk-6.1-rkr1
+  #  2. put https://github.com/armbian/build/blob/main/config/kernel/linux-rk35xx-vendor.config to linux-rockchip/arch/arm64/configs/rk35xx_vendor_defconfig
+  #  3. run `nix develop .#fhsEnv` in this project to enter the fhs test environment defined here.
+  #  4. `cd linux-rockchip` and `make rk35xx_vendor_defconfig` to configure the kernel.
+  #  5. Then use `make menuconfig` in kernel's root directory to view and customize the kernel(like enable/disable rknpu, rkflash, etc).
+  #  6. copy the generated .config to ./pkgs/kernel/rk35xx_vendor_config and commit it.
+  # 
+  configfile = ./rk35xx_vendor_config;
   allowImportFromDerivation = true;
 })
 .overrideAttrs (old: {

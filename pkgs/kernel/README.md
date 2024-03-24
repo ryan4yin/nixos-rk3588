@@ -7,13 +7,6 @@ Related Armbian projects:
 - <https://github.com/armbian/build>
 - <https://github.com/armbian/linux-rockchip>
 
-
-Test command:
-
-```bash
-./compile.sh build BOARD=orangepi5 BRANCH=legacy BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=yes RELEASE=jammy
-```
-
 Other informations:
 
 - the SBC specific build configuration:
@@ -34,8 +27,9 @@ Other informations:
         - `KERNELPATCHDIR='rk35xx-legacy'`
           - all these patches has already been merged into the mainline kernel: https://github.com/armbian/build/commit/afa8775f3e0218b039185b34831b0feee7fe5a50
         - `LINUXFAMILY=rk35xx`
-      - collabora: kernel 6.4, maintained by Collabora.
-        - `LINUXCONFIG='linux-rockchip-rk3588-'$BRANCH`
+      - vendor: kernel 6.1, maintained by armbian/rockchip.
+        - `LINUXFAMILY=rk35xx`
+        - `KERNELPATCHDIR='rk35xx-vendor-6.1'`
 - the kernel config:
   - default to `LINUXCONFIG="linux-${LINUXFAMILY}-${BRANCH}"` + `.config`
     - defined at:
@@ -43,7 +37,7 @@ Other informations:
       - https://github.com/armbian/build/blob/main/lib/functions/compilation/kernel-config.sh#L14-L22
   - so the default kernel config for orangepi5 / orangepi5plus / rock-5a is:
     - BRANCH=legacy: <https://github.com/armbian/build/blob/main/config/kernel/linux-rk35xx-legacy.config>
-    - BRANCH=collabora: <https://github.com/armbian/build/blob/main/config/kernel/linux-rockchip-rk3588-collabora.config>
+    - BRANCH=vendor: <https://github.com/armbian/build/blob/main/config/kernel/linux-rk35xx-vendor.config>
 - the initial commit for orangepi5 in armbian/build:
   - <https://github.com/armbian/build/commit/18198b1d7d72cbef44228e7cb44a078cb8e03f27#diff-999cd9038268b0c128f7342a957b87fa0b4b12536e4cd2abd54c9a17180188e1>
 

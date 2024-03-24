@@ -151,11 +151,6 @@
         rawEfiImage-rock5a = self.nixosConfigurations.rock5a-uefi.config.formats.raw-efi;
       };
 
-      # Usage:
-      #  1. git clone --depth 1 git@github.com:armbian/linux-rockchip.git -b rk-6.1-rkr1
-      #  2. `nix develop .#fhsEnv` to enter the fhs test environment defined here.
-      #  3. Then use `make menuconfig` to configure the kernel.
-      # 
       devShells.fhsEnv =
         # the code here is mainly copied from:
         #   https://nixos.wiki/wiki/Linux_kernel#Embedded_Linux_Cross-compile_xconfig_and_menuconfig
