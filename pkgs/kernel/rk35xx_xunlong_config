@@ -2792,7 +2792,6 @@ CONFIG_TOUCHSCREEN_EDT_FT5X06=m
 # CONFIG_TOUCHSCREEN_SIS_I2C is not set
 # CONFIG_TOUCHSCREEN_ST1232 is not set
 # CONFIG_TOUCHSCREEN_STMFTS is not set
-# CONFIG_TOUCHSCREEN_SUR40 is not set
 # CONFIG_TOUCHSCREEN_SURFACE3_SPI is not set
 # CONFIG_TOUCHSCREEN_SX8654 is not set
 # CONFIG_TOUCHSCREEN_TPS6507X is not set
@@ -3986,21 +3985,14 @@ CONFIG_DVB_CORE=m
 # Video4Linux options
 #
 CONFIG_VIDEO_V4L2_I2C=y
-CONFIG_VIDEO_V4L2_SUBDEV_API=y
 # CONFIG_VIDEO_ADV_DEBUG is not set
 # CONFIG_VIDEO_FIXED_MINOR_RANGES is not set
-CONFIG_V4L2_H264=m
-CONFIG_V4L2_VP9=m
-CONFIG_V4L2_MEM2MEM_DEV=m
-CONFIG_V4L2_FWNODE=m
-CONFIG_V4L2_ASYNC=m
 # end of Video4Linux options
 
 #
 # Media controller options
 #
 # CONFIG_MEDIA_CONTROLLER_DVB is not set
-CONFIG_MEDIA_CONTROLLER_REQUEST_API=y
 # end of Media controller options
 
 #
@@ -4025,177 +4017,14 @@ CONFIG_DVB_DYNAMIC_MINORS=y
 #
 # Media drivers
 #
-CONFIG_MEDIA_USB_SUPPORT=y
-
-#
-# Webcam devices
-#
-# CONFIG_USB_GSPCA is not set
-# CONFIG_USB_PWC is not set
-# CONFIG_USB_S2255 is not set
-# CONFIG_VIDEO_USBTV is not set
-CONFIG_USB_VIDEO_CLASS=m
-CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV=y
-
-#
-# Analog TV USB devices
-#
-# CONFIG_VIDEO_GO7007 is not set
-# CONFIG_VIDEO_HDPVR is not set
-# CONFIG_VIDEO_PVRUSB2 is not set
-# CONFIG_VIDEO_STK1160_COMMON is not set
-
-#
-# Analog/digital TV USB devices
-#
-# CONFIG_VIDEO_AU0828 is not set
-# CONFIG_VIDEO_CX231XX is not set
-
-#
-# Digital TV USB devices
-#
-# CONFIG_DVB_AS102 is not set
-# CONFIG_DVB_B2C2_FLEXCOP_USB is not set
-# CONFIG_DVB_USB_V2 is not set
-# CONFIG_DVB_USB is not set
-# CONFIG_SMS_USB_DRV is not set
-# CONFIG_DVB_TTUSB_BUDGET is not set
-# CONFIG_DVB_TTUSB_DEC is not set
-
-#
-# Webcam, TV (analog/digital) USB devices
-#
-# CONFIG_VIDEO_EM28XX is not set
-
-#
-# Software defined radio USB devices
-#
-# CONFIG_USB_AIRSPY is not set
-# CONFIG_USB_HACKRF is not set
-# CONFIG_USB_MSI2500 is not set
+# CONFIG_MEDIA_USB_SUPPORT is not set
 # CONFIG_MEDIA_PCI_SUPPORT is not set
-CONFIG_MEDIA_PLATFORM_DRIVERS=y
-CONFIG_V4L_PLATFORM_DRIVERS=y
-CONFIG_SDR_PLATFORM_DRIVERS=y
-# CONFIG_DVB_PLATFORM_DRIVERS is not set
-CONFIG_V4L_MEM2MEM_DRIVERS=y
-# CONFIG_VIDEO_MEM2MEM_DEINTERLACE is not set
-# CONFIG_VIDEO_MUX is not set
-
-#
-# Allegro DVT media platform drivers
-#
-
-#
-# Amlogic media platform drivers
-#
-# CONFIG_VIDEO_MESON_GE2D is not set
-
-#
-# Amphion drivers
-#
-
-#
-# Aspeed media platform drivers
-#
-# CONFIG_VIDEO_ASPEED is not set
-
-#
-# Atmel media platform drivers
-#
-
-#
-# Cadence media platform drivers
-#
-# CONFIG_VIDEO_CADENCE_CSI2RX is not set
-# CONFIG_VIDEO_CADENCE_CSI2TX is not set
-
-#
-# Chips&Media media platform drivers
-#
-
-#
-# Intel media platform drivers
-#
-
-#
-# Marvell media platform drivers
-#
-# CONFIG_VIDEO_CAFE_CCIC is not set
-
-#
-# Mediatek media platform drivers
-#
-# CONFIG_VIDEO_MEDIATEK_JPEG is not set
-# CONFIG_VIDEO_MEDIATEK_MDP is not set
-# CONFIG_VIDEO_MEDIATEK_VPU is not set
-
-#
-# NVidia media platform drivers
-#
-
-#
-# NXP media platform drivers
-#
-
-#
-# Qualcomm media platform drivers
-#
-
-#
-# Renesas media platform drivers
-#
-
-#
-# Rockchip media platform drivers
-#
-# CONFIG_VIDEO_ROCKCHIP_CIF is not set
-# CONFIG_VIDEO_ROCKCHIP_ISP is not set
-# CONFIG_VIDEO_ROCKCHIP_ISPP is not set
-# CONFIG_VIDEO_ROCKCHIP_HDMIRX_CLASS is not set
-# CONFIG_VIDEO_ROCKCHIP_RGA is not set
-# CONFIG_VIDEO_ROCKCHIP_ISP1 is not set
-
-#
-# Samsung media platform drivers
-#
-
-#
-# STMicroelectronics media platform drivers
-#
-
-#
-# Sunxi media platform drivers
-#
-
-#
-# Texas Instruments drivers
-#
-
-#
-# Verisilicon media platform drivers
-#
-CONFIG_VIDEO_HANTRO=m
-CONFIG_VIDEO_HANTRO_ROCKCHIP=y
-
-#
-# VIA media platform drivers
-#
-
-#
-# Xilinx media platform drivers
-#
-# CONFIG_VIDEO_XILINX is not set
+# CONFIG_MEDIA_PLATFORM_DRIVERS is not set
 
 #
 # MMC/SDIO DVB adapters
 #
 # CONFIG_SMS_SDIO_DRV is not set
-CONFIG_VIDEOBUF2_CORE=m
-CONFIG_VIDEOBUF2_V4L2=m
-CONFIG_VIDEOBUF2_MEMOPS=m
-CONFIG_VIDEOBUF2_DMA_CONTIG=m
-CONFIG_VIDEOBUF2_VMALLOC=m
 # end of Media drivers
 
 CONFIG_MEDIA_HIDE_ANCILLARY_SUBDRV=y
@@ -4248,7 +4077,7 @@ CONFIG_VIDEO_IR_I2C=m
 # CONFIG_VIDEO_HI847 is not set
 # CONFIG_VIDEO_IMX208 is not set
 # CONFIG_VIDEO_IMX214 is not set
-CONFIG_VIDEO_IMX219=m
+# CONFIG_VIDEO_IMX219 is not set
 # CONFIG_VIDEO_IMX258 is not set
 # CONFIG_VIDEO_IMX274 is not set
 # CONFIG_VIDEO_IMX290 is not set
@@ -4316,8 +4145,8 @@ CONFIG_VIDEO_IMX219=m
 # CONFIG_VIDEO_OV4688 is not set
 # CONFIG_VIDEO_OV4689 is not set
 # CONFIG_VIDEO_OV50C40 is not set
-CONFIG_VIDEO_OV5640=m
-CONFIG_VIDEO_OV5645=m
+# CONFIG_VIDEO_OV5640 is not set
+# CONFIG_VIDEO_OV5645 is not set
 # CONFIG_VIDEO_OV5647 is not set
 # CONFIG_VIDEO_OV5648 is not set
 # CONFIG_VIDEO_OV5670 is not set
@@ -4415,7 +4244,6 @@ CONFIG_VIDEO_OV5645=m
 #
 # audio, video and radio I2C drivers auto-selected by 'Autoselect ancillary drivers'
 #
-CONFIG_VIDEO_MAX96712=m
 
 #
 # Video and audio decoders
@@ -6216,73 +6044,7 @@ CONFIG_VHOST_MENU=y
 
 # CONFIG_GREYBUS is not set
 # CONFIG_COMEDI is not set
-CONFIG_STAGING=y
-# CONFIG_RTS5208 is not set
-# CONFIG_VT6655 is not set
-
-#
-# IIO staging drivers
-#
-
-#
-# Accelerometers
-#
-# CONFIG_ADIS16203 is not set
-# CONFIG_ADIS16240 is not set
-# end of Accelerometers
-
-#
-# Analog to digital converters
-#
-# CONFIG_AD7816 is not set
-# end of Analog to digital converters
-
-#
-# Analog digital bi-direction converters
-#
-# CONFIG_ADT7316 is not set
-# end of Analog digital bi-direction converters
-
-#
-# Direct Digital Synthesis
-#
-# CONFIG_AD9832 is not set
-# CONFIG_AD9834 is not set
-# end of Direct Digital Synthesis
-
-#
-# Network Analyzer, Impedance Converters
-#
-# CONFIG_AD5933 is not set
-# end of Network Analyzer, Impedance Converters
-
-#
-# Active energy metering IC
-#
-# CONFIG_ADE7854 is not set
-# end of Active energy metering IC
-
-#
-# Resolver to digital converters
-#
-# CONFIG_AD2S1210 is not set
-# end of Resolver to digital converters
-# end of IIO staging drivers
-
-# CONFIG_FB_SM750 is not set
-CONFIG_STAGING_MEDIA=y
-# CONFIG_VIDEO_MESON_VDEC is not set
-# CONFIG_VIDEO_ROCKCHIP_VDEC is not set
-# CONFIG_STAGING_MEDIA_DEPRECATED is not set
-# CONFIG_STAGING_BOARD is not set
-# CONFIG_LTE_GDM724X is not set
-# CONFIG_FB_TFT is not set
-# CONFIG_KS7010 is not set
-# CONFIG_PI433 is not set
-# CONFIG_XIL_AXIS_FIFO is not set
-# CONFIG_FIELDBUS_DEV is not set
-# CONFIG_QLGE is not set
-# CONFIG_VME_BUS is not set
+# CONFIG_STAGING is not set
 # CONFIG_GOLDFISH is not set
 # CONFIG_CHROME_PLATFORMS is not set
 # CONFIG_MELLANOX_PLATFORM is not set
