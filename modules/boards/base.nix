@@ -17,15 +17,6 @@
       "ext4"
       "btrfs"
     ];
-
-    initrd.includeDefaultModules = lib.mkForce false;
-    initrd.availableKernelModules = lib.mkForce [
-      "dm_mod" # device-mapper
-      "dm_crypt" # device-mapper crypt(LUKS)
-      "encrypted_keys" # LUKS key management
-
-      "uas"
-    ];
   };
 
   hardware = {
