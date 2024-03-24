@@ -4,9 +4,6 @@
 
 A minimal flake to run NixOS on RK3588/RK3588s based SBCs, support both UEFI & U-Boot.
 
-![](_img/nixos-orangepi5plus.webp)
-![](_img/nixos-rock5a.webp)
-
 Default user: `rk`, default password: `rk3588`
 
 ## Boards
@@ -79,6 +76,11 @@ The primary steps involved are:
 1. Bootloader: Since no customization is required for U-Boot or [edk2-rk3588], it's also possible to directly use the precompiled image from [armbian], [edk2-rk3588], or the hardware vendor.
 2. Build the NixOS rootfs using this flake, leveraging the kernel and device tree provided by [armbian].
    - To make all the hardware features available, we need to add its firmwares to the rootfs. Since there is no customization required for the firmwares too, we can directly use the precompiled firmwares from Armbian & Vendor too.
+
+## Screenshots
+
+![](_img/nixos-orangepi5plus.webp)
+![](_img/nixos-rock5a.webp)
 
 ## References
 
