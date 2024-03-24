@@ -19,7 +19,13 @@
     ];
 
     initrd.includeDefaultModules = lib.mkForce false;
-    initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys" "uas"];
+    initrd.availableKernelModules = lib.mkForce [
+      "dm_mod" # device-mapper
+      "dm_crypt" # device-mapper crypt(LUKS)
+      "encrypted_keys" # LUKS key management
+
+      "uas"
+    ];
   };
 
   hardware = {

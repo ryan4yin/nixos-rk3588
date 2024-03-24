@@ -9,7 +9,7 @@ in {
   ];
 
   boot = {
-    kernelPackages = pkgsKernel.linuxPackagesFor (pkgsKernel.callPackage ../../pkgs/kernel/legacy.nix {});
+    kernelPackages = pkgsKernel.linuxPackagesFor (pkgsKernel.callPackage ../../pkgs/kernel/vendor.nix {});
 
     # kernelParams copy from rock5a's official debian image's /boot/extlinux/extlinux.conf
     # https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html

@@ -87,6 +87,7 @@ The primary steps involved are:
 - [aciceri/rock5b-nixos](https://github.com/aciceri/rock5b-nixos)
 - [nabam/nixos-rockchip](https://github.com/nabam/nixos-rockchip)
 - [fb87/nixos-orangepi-5x](https://github.com/fb87/nixos-orangepi-5x)
+- [dvdjv/socle](https://github.com/dvdjv/socle)
 - [edk2-rk3588]
 
 And I also got a lot of help in the [NixOS on ARM Matrix group](https://matrix.to/#/#nixos-on-arm:nixos.org)!
