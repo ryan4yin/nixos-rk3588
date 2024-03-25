@@ -8,8 +8,10 @@
   inherit (rk3588) nixpkgs;
 
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
-  # rkbin-rk3588 = pkgs.callPackage ../../pkgs/rkbin-rk3588 {};
-  uboot = pkgs.callPackage ../../pkgs/u-boot-radxa/prebuilt.nix {};
+  uboot = pkgs.callPackage ../../pkgs/u-boot {
+    # https://github.com/u-boot/u-boot/blob/v2024.01/configs/rock5a-rk3588s_defconfig
+    defconfig = "rock5a-rk3588s_defconfig";
+  };
 in {
   imports = [
     ./sd-image-rock5a.nix
