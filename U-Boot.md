@@ -49,7 +49,7 @@ zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progre
 # ==================================
 nix build github:ryan4yin/nixos-rk3588/2024032400#sdImage-opi5
 # nix build .#sdImage-opi5-cross  # fully cross-compiled
-stdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX
+zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX
 ```
 
 For Rock 5A, it requires a little more work to flash the image to the sd card:
