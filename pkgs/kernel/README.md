@@ -50,12 +50,26 @@ Kernel and the build system, it's very similar to armbian's:
 - <https://github.com/armbian/build/>
 - <https://github.com/orangepi-xunlong/linux-orangepi>
 
-Orange Pi 5/4+'s kernel 6.1 support:
+Orange Pi 5/5+'s kernel 6.1 support:
 
 - Kernel: <https://github.com/orangepi-xunlong/linux-orangepi/tree/orange-pi-6.1-rk35xx>
 - Build System: <https://github.com/orangepi-xunlong/orangepi-build/commit/55155f1d73cca3cf6bf42a03d7d16df2b14e8014>
   - the defconfig: <https://github.com/orangepi-xunlong/orangepi-build/blob/next/external/config/kernel/linux-rockchip-rk3588-current.config>
 
+How to customize the kernel:
+
+- [PR #23](https://github.com/ryan4yin/nixos-rk3588/pull/23/commits)
+- [PR #27](https://github.com/ryan4yin/nixos-rk3588/pull/27)
+
+## Rock 5A's Kernel
+
+Kernel and the build system:
+
+- <https://github.com/radxa/u-boot/tree/rk35xx-2024.01>
+- <https://github.com/radxa/kernel/tree/linux-6.1-stan-rkr1>
+
+According to [Build Kernel on ROCK 5B](https://wiki.radxa.com/Rock5/guide/build-kernel-on-5b),
+radxa uses its default config `rockchip_linux_defconfig` for the kernel.
 
 ## References
 
