@@ -18,6 +18,9 @@ The steps to do this:
    sudo dd if=./xxx-UEFI-xxx.img of=/dev/mtdblock0
    ```
 1. Reboot the board, and you should see the UEFI boot menu.
+
+> NOTE: On orangePi5plus which have 2 HDMI output, the UEFI will only be display on the first HDMI output, be sure to plug your monitor to the HDMI in the middle
+
 1. In the UEFI boot menu
     1. Enter [Device Manager] => [Rockchip Platform Configuration] => [ACPI / Device Tree]
     1. Change [Config Table Mode] to `Both`.
