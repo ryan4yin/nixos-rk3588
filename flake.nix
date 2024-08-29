@@ -50,6 +50,11 @@
           core = import ./modules/boards/orangepi5.nix;
           sd-image = ./modules/sd-image/orangepi5.nix;
         };
+        # Orange Pi 5b SBC
+        orangepi5b = {
+          core = import ./modules/boards/orangepi5b.nix;
+          sd-image = ./modules/sd-image/orangepi5b.nix;
+        };
         # Orange Pi 5 Plus SBC
         orangepi5plus = {
           core = import ./modules/boards/orangepi5plus.nix;
@@ -138,10 +143,12 @@
       packages = {
         # sdImage
         sdImage-opi5 = self.nixosConfigurations.orangepi5.config.system.build.sdImage;
+        sdImage-opi5b = self.nixosConfigurations.orangepi5b.config.system.build.sdImage;
         sdImage-opi5plus = self.nixosConfigurations.orangepi5plus.config.system.build.sdImage;
         sdImage-rock5a = self.nixosConfigurations.rock5a.config.system.build.sdImage;
 
         sdImage-opi5-cross = self.nixosConfigurations.orangepi5-cross.config.system.build.sdImage;
+        sdImage-opi5b-cross = self.nixosConfigurations.orangepi5-cross.config.system.build.sdImage;
         sdImage-opi5plus-cross = self.nixosConfigurations.orangepi5plus-cross.config.system.build.sdImage;
         sdImage-rock5a-cross = self.nixosConfigurations.rock5a-cross.config.system.build.sdImage;
 
