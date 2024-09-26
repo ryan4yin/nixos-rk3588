@@ -8,8 +8,18 @@
   inherit (rk3588) nixpkgs;
 
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
-  # rkbin-rk3588 = pkgs.callPackage ../../pkgs/rkbin-rk3588 {};
-  uboot = pkgs.callPackage ../../pkgs/u-boot-radxa/prebuilt.nix {};
+  uboot = pkgs.ubootRock5ModelB.override {
+    # NixOS:
+    #   https://github.com/NixOS/nixpkgs/blob/35085ab73009898/pkgs/misc/uboot/default.nix#L543
+    #   https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/rk/rkbin/package.nix
+    # U-Boot:
+    #   https://github.com/u-boot/u-boot/blob/v2024.04/configs/rock5a-rk3588s_defconfig
+    #   https://github.com/radxa/build/blob/debian/mk-uboot.sh#L366
+    # rkbin:
+    #  https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/misc/arm-trusted-firmware/default.nix#L154
+    defconfig = "rock5a-rk3588s_defconfig";
+    filesToInstall = ["u-boot.itb" "idbloader.img" "u-boot-rockchip.bin"];
+  };
 in {
   imports = [
     ./sd-image-rock5a.nix
@@ -36,6 +46,8 @@ in {
     };
   };
 
+  # we need to enable this to make ubootRock5ModelB available
+  nixpkgs.config.allowUnfree = true;
   sdImage = {
     inherit rootPartitionUUID;
 
