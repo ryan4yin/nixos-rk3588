@@ -3,7 +3,7 @@
 
   inputs = {
     # Use the local flake for testing or remote flake for production.
-    # TODO: because this is a relative path input you will need to update the flake.lock file locally with `nix flake lock --update-input nixos-rk3588`
+   # TODO: because this is a relative path input you will need to update the flake.lock file locally with `nix flake update nixos-rk3588`
     nixos-rk3588.url = "path:.."; # For local testing
     # nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";  # For production
   };
