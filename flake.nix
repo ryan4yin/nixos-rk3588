@@ -45,25 +45,42 @@
   in
     {
       nixosModules = {
-        # Orange Pi 5 SBC
-        orangepi5 = {
-          core = import ./modules/boards/orangepi5.nix;
-          sd-image = ./modules/sd-image/orangepi5.nix;
+
+        orangepi5plus = throw "'nixosModules.orangepi5plus' has been renamed to 'nixosModules.boards.orangepi5plus'";
+        orangepi5b = throw "'nixosModules.orangepi5b' has been renamed to 'nixosModules.boards.orangepi5b'";
+        orangepi5 = throw "'nixosModules.orangepi5' has been renamed to 'nixosModules.boards.orangepi5'";
+        rock5a = throw "'nixosModules.rock5a' has been renamed to 'nixosModules.boards.rock5a'";
+      
+        boards = {
+          # Orange Pi 5 SBC
+          orangepi5 = {
+            core = import ./modules/boards/orangepi5.nix;
+            sd-image = ./modules/sd-image/orangepi5.nix;
+          };
+          # Orange Pi 5b SBC
+          orangepi5b = {
+            core = import ./modules/boards/orangepi5b.nix;
+            sd-image = ./modules/sd-image/orangepi5b.nix;
+          };
+          # Orange Pi 5 Plus SBC
+          orangepi5plus = {
+            core = import ./modules/boards/orangepi5plus.nix;
+            sd-image = ./modules/sd-image/orangepi5plus.nix;
+          };
+          # Rock 5 Model A SBC
+          rock5a = {
+            core = import ./modules/boards/rock5a.nix;
+            sd-image = ./modules/sd-image/rock5a.nix;
+          };
         };
-        # Orange Pi 5b SBC
-        orangepi5b = {
-          core = import ./modules/boards/orangepi5b.nix;
-          sd-image = ./modules/sd-image/orangepi5b.nix;
-        };
-        # Orange Pi 5 Plus SBC
-        orangepi5plus = {
-          core = import ./modules/boards/orangepi5plus.nix;
-          sd-image = ./modules/sd-image/orangepi5plus.nix;
-        };
-        # Rock 5 Model A SBC
-        rock5a = {
-          core = import ./modules/boards/rock5a.nix;
-          sd-image = ./modules/sd-image/rock5a.nix;
+
+        formats = {config, ...}: {
+          imports = [
+            nixos-generators.nixosModules.all-formats
+          ];
+
+          nixpkgs.hostPlatform = aarch64System;
+          formatConfigs.rk3588-raw-efi = import ./modules/rk3588-raw-efi.nix;
         };
       };
 
@@ -87,7 +104,7 @@
               }
             ];
           })
-        self.nixosModules)
+        self.nixosModules.boards)
         # sdImage - boot via U-Boot - fully cross-compiled
         // (nixpkgs.lib.mapAttrs'
           (name: board:
@@ -113,7 +130,7 @@
                 }
               ];
             }))
-          self.nixosModules)
+          self.nixosModules.boards)
         # UEFI system, boot via edk2-rk3588 - fully native
         // (nixpkgs.lib.mapAttrs'
           (name: board:
@@ -121,9 +138,13 @@
             (name + "-uefi")
             (nixpkgs.lib.nixosSystem {
               system = aarch64System; # native or qemu-emulated
-              specialArgs.rk3588 = {
-                inherit nixpkgs;
-                pkgsKernel = pkgsNative;
+
+              specialArgs = {
+                rk3588 = {
+                  inherit nixpkgs;
+                  pkgsKernel = pkgsNative;
+                };
+                inherit nixos-generators;
               };
               modules = [
                 board.core
@@ -132,10 +153,10 @@
                   networking.hostName = name;
                 }
 
-                nixos-generators.nixosModules.all-formats
+                self.nixosModules.formats
               ];
             }))
-          self.nixosModules);
+          self.nixosModules.boards);
     }
     // flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
@@ -153,9 +174,9 @@
         sdImage-rock5a-cross = self.nixosConfigurations.rock5a-cross.config.system.build.sdImage;
 
         # UEFI raw image
-        rawEfiImage-opi5 = self.nixosConfigurations.orangepi5-uefi.config.formats.raw-efi;
-        rawEfiImage-opi5plus = self.nixosConfigurations.orangepi5plus-uefi.config.formats.raw-efi;
-        rawEfiImage-rock5a = self.nixosConfigurations.rock5a-uefi.config.formats.raw-efi;
+        rawEfiImage-opi5 = self.nixosConfigurations.orangepi5-uefi.config.formats.rk3588-raw-efi;
+        rawEfiImage-opi5plus = self.nixosConfigurations.orangepi5plus-uefi.config.formats.rk3588-raw-efi;
+        rawEfiImage-rock5a = self.nixosConfigurations.rock5a-uefi.config.formats.rk3588-raw-efi;
       };
 
       devShells.fhsEnv =

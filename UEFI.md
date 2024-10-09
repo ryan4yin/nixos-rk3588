@@ -67,16 +67,7 @@ cat result | sudo dd status=progress bs=8M of=/dev/sdX
 
 # Due to https://github.com/ryan4yin/nixos-rk3588/issues/22
 # We have to add our dtbs into edk2-rk3588's overlays folder `/boot/dtb/base`
-mkdir boot root
-mkdir -p /boot/dtb/base
-mount /dev/sdX1 boot
-mount /dev/sdX2 root
-# Get the hash of the kernel image
-ls boot/kernels/ | grep Image  # => 9h87sqy9ix9qsvlyqcqsmjbzfs1ymgqx-k-Image
-# Copy the dtb file to the overlays folder, the name should be the same as the hash of the kernel image
- cp root/nix/store/9h87sqy9ix9qsvlyqcqsmjbzfs1ymgqx-k/dtbs/rockchip/* /boot/dtb/base/
-umount boot root
-sudo sync
+# This is now done automatically as part of the rk3588-raw-efi format. See: modules/rk3588-raw-efi.nix
 
 # ====================================
 # For Rock 5A(Not Work Yet!!!)
