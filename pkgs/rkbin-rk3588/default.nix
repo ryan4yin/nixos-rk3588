@@ -10,8 +10,8 @@ stdenvNoCC.mkDerivation {
   src = fetchFromGitHub {
     owner = "armbian";
     repo = "rkbin";
-    rev = "ff684f607af661ac0ef5ce59f0533adb2beb6e12";
-    sha256 = "sha256-sOhdlvdQrH7eykPV2y2r7/NqNcxdgtnBshQAka6ZXD0=";
+    rev = "12657ed7c65f16f89e6bd5ea82ca670d3324fc70";
+    sha256 = "sha256-Lyo4LHg8HfeJTQ0Y29d0ITdF1JDOFOmgK2JxvBlKL1E=";
   };
 
   installPhase = ''

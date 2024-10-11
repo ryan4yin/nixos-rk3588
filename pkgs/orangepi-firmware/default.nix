@@ -8,8 +8,8 @@
     src = fetchFromGitHub {
         owner = "orangepi-xunlong";
         repo = "firmware";
-        rev = "76ead17a1770459560042a9a7c43fe615bbce5e7";
-        hash = "sha256-mltaup92LTGbuCXeGTMdoFloX3vZRbaUFVbh6lwveFs=";
+        rev = "75ea6fc5f3c454861b39b33823cb6876f3eca598";
+        hash = "sha256-X+n0voO3HRtPPAQsajGPIN9LOfDKBxF+8l9wFwGAFSQ=";
     };
 
     installPhase = ''
