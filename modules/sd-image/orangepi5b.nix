@@ -6,7 +6,10 @@
   ...
 }: let
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
+  # use prebuilt u-boot
   uboot = pkgs.callPackage ../../pkgs/u-boot-opi5b/prebuilt.nix {};
+  # or build u-boot from source (comment/uncomment)
+  # uboot = pkgs.callPackage ../../pkgs/u-boot-opi5b/build-from-source.nix {};
 in {
   imports = [
     "${rk3588.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
