@@ -30,7 +30,7 @@ in
       flex
       openssl
       bc
-    ] ++ [ rkbin ];
+    ] ++ [ rkbin-rk3588 ];
     
     configurePhase = ''
       make ARCH=arm evb-rk3588_defconfig
