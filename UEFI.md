@@ -17,7 +17,7 @@ The steps to do this:
    ```bash
    sudo dd if=./xxx-UEFI-xxx.img of=/dev/mtdblock0
    ```
-1. Reboot the board, and you should see the UEFI boot menu.
+1. Reboot the board (taking the SD card out), and you should see the UEFI boot menu.
 
 > NOTE: On orangePi5plus which have 2 HDMI output, the UEFI will only be display on the first HDMI output, be sure to plug your monitor to the HDMI in the middle
 
