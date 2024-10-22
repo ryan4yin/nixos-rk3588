@@ -30,11 +30,11 @@ U-Boot support:
 - [ ] verify all the hardware features available by RK3588/RK3588s
   - [x] ethernet (rj45)
   - [x] m.2 interface(pcie & sata)
-  - [ ] wifi/bluetooth
-  - [ ] audio
+  - [x] wifi/bluetooth
+  - [x] audio
   - [x] gpio
   - [x] uart/ttl
-  - [ ] gpu(mali-g610-firmware + [panfork/mesa](https://gitlab.com/panfork/mesa))
+  - [x] gpu(mali-g610-firmware + panthor)
   - [ ] npu
   - ...
 
