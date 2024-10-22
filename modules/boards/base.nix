@@ -1,23 +1,9 @@
-{
-  lib,
-  pkgs,
-  config,
-  options,
-  ...
+{ lib
+, pkgs
+, config
+, options
+, ...
 }: {
-  options.hardware.mali = {
-    enableFirmware = lib.mkOption {
-      type = lib.types.bool;
-      description = "Whether to enable GPU firmware";
-      default = true;
-    };
-    firmwarePackage = lib.mkOption {
-      type = lib.types.package;
-      description = "Firmware package for Mali-G610 GPU";
-      default = (pkgs.callPackage ../../pkgs/mali-firmware {});
-    };
-  };
-
   config = {
     # =========================================================================
     #      Base NixOS Configuration
@@ -77,13 +63,12 @@
     hardware = {
       # driver & firmware for Mali-G610 GPU
       # it works on all rk2588/rk3588s based SBCs.
-      opengl.package =
+      graphics.package =
         (
           (pkgs.mesa.override {
-            galliumDrivers = ["panfrost" "swrast"];
-            vulkanDrivers = ["swrast"];
-          })
-          .overrideAttrs (_: {
+            galliumDrivers = [ "panfrost" "swrast" ];
+            vulkanDrivers = [ "swrast" ];
+          }).overrideAttrs (_: {
             pname = "mesa-panfork";
             version = "23.0.0-panfork";
             src = pkgs.fetchFromGitLab {
@@ -93,13 +78,9 @@
               hash = "sha256-4eZHMiYS+sRDHNBtLZTA8ELZnLns7yT3USU5YQswxQ0=";
             };
           })
-        )
-        .drivers;
+        ).drivers;
 
       enableRedistributableFirmware = lib.mkForce true;
-      firmware = lib.mkIf config.hardware.mali.enableFirmware [
-        config.hardware.mali.firmwarePackage
-      ];
     };
   };
 }
