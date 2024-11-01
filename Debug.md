@@ -28,7 +28,7 @@ Then, use tools like 'screen' or 'minicom' to read and write to the serial port 
 │ 0 │ /dev/ttyUSB0 │ char device │  0 B │ 6 minutes ago │
 ╰───┴──────────────┴─────────────┴──────┴───────────────╯
 
-› minicom -d /dev/ttyusb0 -b 1500000
+› minicom -D /dev/ttyUSB0 -b 1500000
 ```
 
 If everything is normal, you should be able to see the startup log at this point. An example(orangepi 5) is shown below:
