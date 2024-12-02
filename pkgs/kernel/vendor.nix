@@ -40,7 +40,7 @@ in
     # reorders the patches, and the order matters since they're generated from commits.
     patch = fetchurl {
       url = "https://github.com/hbiyik/linux/compare/${panthor-base}...${panthor-head}.patch";
-      hash = "sha256-/5SvlGsgHbn1i68+GASOeNZmxoZiIt280L6iUFz3MFU=";
+      hash = "sha256-nSfmgem0CElUHL1wXSL+9aVixeaRjcxMyey4YaNdHfc=";
     };
     extraConfig = { };
   }];
