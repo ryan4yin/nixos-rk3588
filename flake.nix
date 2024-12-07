@@ -73,6 +73,10 @@
             core = import ./modules/boards/rock5a.nix;
             sd-image = ./modules/sd-image/rock5a.nix;
           };
+          # Rock 5 Model B SBC
+          rock5a = {
+            core = import ./modules/boards/rock5b.nix;
+          };
         };
 
         formats = { config, ... }: {
@@ -181,6 +185,7 @@
         rawEfiImage-opi5 = self.nixosConfigurations.orangepi5-uefi.config.formats.rk3588-raw-efi;
         rawEfiImage-opi5plus = self.nixosConfigurations.orangepi5plus-uefi.config.formats.rk3588-raw-efi;
         rawEfiImage-rock5a = self.nixosConfigurations.rock5a-uefi.config.formats.rk3588-raw-efi;
+        rawEfiImage-rock5b = self.nixosConfigurations.rock5b-uefi.config.formats.rk3588-raw-efi;
       };
 
       devShells.fhsEnv =
