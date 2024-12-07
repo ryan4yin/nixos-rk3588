@@ -1,5 +1,5 @@
 
-## Debug with UART
+# Debug with UART
 
 When the system fails to boot, you can check the boot logs through serial port.
 
@@ -7,20 +7,19 @@ First, connect the USB to TTL cable to the debugging serial port of the board.
 
 Orange Pi 5's debugging serial port:
 
-![](/_img/orangepi5-serialport.webp)
+![Orange Pi 5 serial pins](/_img/orangepi5-serialport.webp)
 
 Orange Pi 5 Plus's debugging serial port:
 
-![](/_img/orangepi5plus-serialport.webp)
-
+![Orange Pi 5 Plus serial pins](/_img/orangepi5plus-serialport.webp)
 
 Rock 5A's do not have a debugging serial port, NixOS will print the boot log to UART2 by default, see the official documentation for the pin definition of UART2: [Rock 5A pinout - Radxa Wiki](https://wiki.radxa.com/Rock5/hardware/5a/gpio)
 
-![](/_img/rock5a-serial-console.webp)
+![ROCK 5A UART2](/_img/rock5a-serial-console.webp)
 
 Then, use tools like 'screen' or 'minicom' to read and write to the serial port device.
 
-```shell
+```console
 › ls /dev/ttyUSB0
 ╭───┬──────────────┬─────────────┬──────┬───────────────╮
 │ # │     name     │    type     │ size │   modified    │
@@ -34,7 +33,7 @@ Then, use tools like 'screen' or 'minicom' to read and write to the serial port 
 
 If everything is normal, you should be able to see the startup log at this point. An example(orangepi 5) is shown below:
 
-```
+```console
 Welcome to minicom 2.8
 
 OPTIONS: I18n 
