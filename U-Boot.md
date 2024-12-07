@@ -16,7 +16,7 @@ For Rock 5A, we've bundled the uboot into the sdImage, so you can skip this step
 
 There're two ways to flash NixOS to the board:
 
-1. Flash NixOS to SD card 
+1. Flash NixOS to SD card
 2. Flash NixOS into SSD/eMMC
 
 ## 2.1. Flash NixOS to SD card
@@ -26,7 +26,6 @@ This is the common way to flash NixOS to the board.
 Build an sdImage by `nix build`, and then flash it to a SD card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card):
 
 > **Instead of build from source, you can also download the prebuilt image from [Releases](https://github.com/ryan4yin/nixos-rk3588/releases)**.
-
 > To understand how this flakes works, please read [Cross-platform Compilation](https://nixos-and-flakes.thiscute.world/development/cross-platform-compilation).
 
 ```bash
@@ -45,7 +44,7 @@ nix build github:ryan4yin/nixos-rk3588/2024092600#sdImage-opi5plus-cross
 zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX
 
 # ==================================
-# For Orange PI 5 
+# For Orange PI 5
 # ==================================
 nix build github:ryan4yin/nixos-rk3588/2024092600#sdImage-opi5
 # nix build .#sdImage-opi5-cross  # fully cross-compiled
@@ -117,5 +116,3 @@ zstdcat orangepi5-sd-image-*.img.zst | sudo dd bs=4M status=progress of=/dev/nvm
 ```
 
 After the flash is complete, remove the SD card and reboot, and NixOS should boot from the SSD / eMMC now.
-
-

@@ -10,11 +10,12 @@ If you're not familiar with remote deployment, please read this tutorial first: 
 
 We’ve added options to the `flake.nix` to allow for flexible deployment types. You can now choose between UEFI or U-Boot boot configurations, as well as configure your deployment for local or remote compilation.
 
-### Available Options:
+### Available Options
 
 1. **Boot Type**: Choose between UEFI and U-Boot.
 
    - Set the `bootType` in `flake.nix`:
+
      ```nix
      bootType = "uefi";  # Or use "u-boot"
      ```
@@ -62,9 +63,11 @@ nix run nixpkgs#colmena apply
 For local native compilation (building the system directly on the device), you can set the compilation type to `"local-native"` in `flake.nix`.
 
 1. Set:
+
    ```nix
    compilationType = "local-native";
    ```
+
 2. Optionally adjust the boot type (`bootType`) for either UEFI or U-Boot.
 
 Then, run the following command to deploy locally:
@@ -89,8 +92,8 @@ nix run nixpkgs#colmena apply-local
 
 Here are some real-world examples of how to deploy NixOS to your SBCs using flakes:
 
-- https://github.com/HeroBrine1st/flake
-- https://github.com/ryan4yin/nixos-config-sbc
+- <https://github.com/HeroBrine1st/flake>
+- <https://github.com/ryan4yin/nixos-config-sbc>
   - Key Differnece: this repo use [disko] to format & mount the disk automatically.
 
 [disko]: https://github.com/nix-community/disko

@@ -79,8 +79,8 @@ The primary steps involved are:
 
 ## Screenshots
 
-![](_img/nixos-orangepi5plus.webp)
-![](_img/nixos-rock5a.webp)
+![Orange Pi 5 Plus Neofetch](_img/nixos-orangepi5plus.webp)
+![ROCK 5A Neofetch](_img/nixos-rock5a.webp)
 
 ## References
 
