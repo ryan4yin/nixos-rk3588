@@ -8,7 +8,7 @@ Default user: `rk`, default password: `rk3588`
 
 ## Warning
 
-:warning: **This project is not maintained anymore, please refer to [Seeking New Maintainers #71](https://github.com/ryan4yin/nixos-rk3588/issues/71) for more information**.
+:warning: **This project is no longer maintained. Please consider migrating to the actively maintained fork [gnull/nixos-rk3588](https://github.com/gnull/nixos-rk3588)**.
 
 ---
 
