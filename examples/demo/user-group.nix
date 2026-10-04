@@ -5,7 +5,7 @@ let
   # this is the hash of the password "rk3588"
   hashedPassword = "$y$j9T$V7M5HzQFBIdfNzVltUxFj/$THE5w.7V7rocWFm06Oh8eFkAKkUFb5u6HVZvXyjekK6";
   # TODO replace this with your own public key!
-  publickey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK3F3AH/vKnA2vxl72h67fcxhIK8l+7F/bdE1zmtwTVU ryan@romantic";
+  publickey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI<your-public-key> user@host";
 in {
   # =========================================================================
   #      Users & Groups NixOS Configuration
