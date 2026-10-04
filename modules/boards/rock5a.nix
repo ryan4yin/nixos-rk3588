@@ -6,6 +6,7 @@
 in {
   imports = [
     ./base.nix
+    ./dtb-install.nix
   ];
 
   boot = {

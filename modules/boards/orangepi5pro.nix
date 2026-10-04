@@ -1,5 +1,5 @@
 # =========================================================================
-#      Orange Pi 5b Specific Configuration
+#      Orange Pi 5 Plus Specific Configuration
 # =========================================================================
 {
   pkgs,
@@ -33,13 +33,11 @@ in {
     ];
   };
 
-  # add some missing deviceTree in armbian/linux-rockchip:
-  # orange pi 5b's deviceTree in armbian/linux-rockchip:
-  #    https://github.com/armbian/linux-rockchip/blob/rk-5.10-rkr4/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dts
   hardware = {
     deviceTree = {
-      name = "rockchip/rk3588s-orangepi-5b.dtb";
-      overlays = [];
+      name = "rockchip/rk3588s-orangepi-5-pro.dtb";
+      overlays = [
+      ];
     };
 
     firmware = [

@@ -4,7 +4,15 @@
 
 A minimal flake to run NixOS on RK3588/RK3588s based SBCs, support both UEFI & U-Boot.
 
-Default user: `rk`, default password: `rk3588`
+Since this flake was started, some boards (Pi 5, Pi 5 Plus) got upstream Nixpkgs support.
+The upstream support does not cover all boards yet,
+  and has some differences with vendor-provided kernel (for example, different NPU interfaces).
+The flake still exists to provide system configs and SD card images based on vendor kernel and U-Boot,
+  since some may prefer them over upstream at the moment.
+
+If you want to make an SD card image for your board using upstream packages (without using this flake),
+  see [this example config](./examples/upstream-opi/) for Pi 5 Plus.
+If the example config works for you, you don't need this flake.
 
 ## Warning
 
@@ -27,7 +35,7 @@ U-Boot support:
 | Singal Board Computer | Boot from SD card  | Boot from SSD      |
 | --------------------- | ------------------ | ------------------ |
 | Orange Pi 5           | :heavy_check_mark: | :heavy_check_mark: |
-| Orange Pi 5 Plus      | :heavy_check_mark: | :no_entry_sign:    |
+| Orange Pi 5 Plus      | :heavy_check_mark: | :heavy_check_mark: |
 | Rock 5A               | :heavy_check_mark: | :no_entry_sign:    |
 
 ## TODO
@@ -41,14 +49,30 @@ U-Boot support:
   - [x] gpio
   - [x] uart/ttl
   - [x] gpu(mali-g610-firmware + panthor)
-  - [ ] npu
+  - [x] npu (works with [rkllama](https://github.com/NotPunchnox/rkllama), tested on OPi 5 Plus)
   - ...
 
 ## Flash & Boot NixOS
 
-For UEFI, see [UEFI.md](./UEFI.md).
+Default user: `rk`, default password: `rk3588`
 
-For U-Boot, see [U-Boot.md](./U-Boot.md).
+The SD card images built using this flake do not embed a bootloader,
+  and won't boot directly on a new board
+  (unlike Armbian images that do embed U-Boot and just run out of the box).
+You have to manually install a bootloader (UEFI or U-Boot) into the SPI flash of your board.
+To do that, you boot into an Armbian image and write a precompiled bootloader image into your SPI block device under `/dev`
+  — detailed instructions are given under links below.
+Once a bootloader is in SPI, you can boot NixOS images from this repo
+  (although make sure your NixOS config is set to use the right bootloader).
+
+This flake supports UEFI and U-Boot, here are the install steps:
+
+- [UEFI.md](./UEFI.md)
+- [U-Boot.md](./U-Boot.md)
+
+I personally recommend running U-Boot, as our support for UEFI has known bugs (https://github.com/gnull/nixos-rk3588/issues/1).
+
+Feel free to drop a testing report in the associated [discussions page](https://github.com/gnull/nixos-rk3588/discussions/2).
 
 ## Debug via serial port(UART)
 
@@ -57,7 +81,12 @@ See [Debug.md](./Debug.md)
 ## Custom Deployment
 
 You can use this flake as an input to build your own configuration.
-Here is an example configuration that you can use as a starting point: [Demo - Deployment](./demo)
+Here is an example configuration that you can use as a starting point: [Demo - Deployment](./examples/demo).
+
+The demo above uses Colmena with remote deployments.
+If you want something more basic, just create a [regular system config with flakes](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled)
+  and import `nixos-rk3588.nixosModules.${board}` as well as `nixos-rk3588.nixosModules.${board}.sd-image`
+  modules provided by this flake.
 
 ## How this flake works
 
