@@ -25,7 +25,7 @@ This is the common way to flash NixOS to the board.
 
 Build an sdImage by `nix build`, and then flash it to a SD card using `dd`(please replace `/dev/sdX` with the correct device name of your sd card):
 
-<!-- > **Instead of build from source, you can also download the prebuilt image from [Releases](https://github.com/gnull/nixos-rk3588/releases)**. -->
+<!-- > **Instead of build from source, you can also download the prebuilt image from [Releases](https://github.com/ryan4yin/nixos-rk3588/releases)**. -->
 > To understand how this flakes works, please read [Cross-platform Compilation](https://nixos-and-flakes.thiscute.world/development/cross-platform-compilation).
 
 ```bash
@@ -36,21 +36,21 @@ Build an sdImage by `nix build`, and then flash it to a SD card using `dd`(pleas
 # In this way, we can take advantage of the official build cache on NixOS to greatly speed up the build
 # it takes about 40 minutes to build the image(mainly the kernel) on my Orange Pi 5 Plus.
 # https://nixos.wiki/wiki/NixOS_on_ARM#Compiling_through_binfmt_QEMU
-nix build github:gnull/nixos-rk3588#sdImage-opi5plus
+nix build github:ryan4yin/nixos-rk3588#sdImage-opi5plus
 
 # 2. Build using the cross-compilation environment
 # NOTE: This will take a long time to build, as the official build cache is not available for the cross-compilation environment,
 # you have to build everything from scratch.
-nix build github:gnull/nixos-rk3588#sdImage-opi5plus-cross
+nix build github:ryan4yin/nixos-rk3588#sdImage-opi5plus-cross
 
 zstdcat result/sd-image/orangepi5plus-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX
 
 # ==================================
 # For Orange PI 5
 # ==================================
-nix build github:gnull/nixos-rk3588#sdImage-opi5
+nix build github:ryan4yin/nixos-rk3588#sdImage-opi5
 
-nix build github:gnull/nixos-rk3588#sdImage-opi5-cross # fully cross-compiled
+nix build github:ryan4yin/nixos-rk3588#sdImage-opi5-cross # fully cross-compiled
 
 
 zstdcat result/sd-image/orangepi5-sd-image-*.img.zst | sudo dd status=progress bs=8M of=/dev/sdX

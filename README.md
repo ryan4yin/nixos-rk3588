@@ -14,12 +14,6 @@ If you want to make an SD card image for your board using upstream packages (wit
   see [this example config](./examples/upstream-opi/) for Pi 5 Plus.
 If the example config works for you, you don't need this flake.
 
-## Warning
-
-:warning: **This project is no longer maintained. Please consider migrating to the actively maintained fork [gnull/nixos-rk3588](https://github.com/gnull/nixos-rk3588)**.
-
----
-
 ## Boards
 
 UEFI support:
@@ -70,9 +64,9 @@ This flake supports UEFI and U-Boot, here are the install steps:
 - [UEFI.md](./UEFI.md)
 - [U-Boot.md](./U-Boot.md)
 
-I personally recommend running U-Boot, as our support for UEFI has known bugs (https://github.com/gnull/nixos-rk3588/issues/1).
+I personally recommend running U-Boot, as our support for UEFI has known bugs (see the [open issues](https://github.com/ryan4yin/nixos-rk3588/issues)).
 
-Feel free to drop a testing report in the associated [discussions page](https://github.com/gnull/nixos-rk3588/discussions/2).
+Feel free to open an [issue](https://github.com/ryan4yin/nixos-rk3588/issues) with your testing report.
 
 ## Debug via serial port(UART)
 
